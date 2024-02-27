@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import { indexPageStyle } from "./style";
 import UiContainer from '@/components/UiContainer'
 import UiTextBanner from '@/components/UiTextBanner'
-import UiSpacer from '@/components/uiSpacer'
+import UiSpacer from '@/components/UiSpacer'
 
 export default function IndexPage() {
     return <Box sx={indexPageStyle.container}>

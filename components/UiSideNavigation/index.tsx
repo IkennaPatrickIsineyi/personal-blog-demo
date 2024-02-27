@@ -4,7 +4,7 @@ import UiText from '@/components/UiText'
 import { variables } from '@/utils/variables'
 import React from "react";
 import UiButton from "../UiButton";
-import UiSpacer from "../uiSpacer";
+import UiSpacer from "../UiSpacer";
 import DarkModeButton from "../DarkModeButton";
 import { Cancel, Close } from "@mui/icons-material";
 
