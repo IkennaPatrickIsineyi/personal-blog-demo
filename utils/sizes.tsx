@@ -31,7 +31,7 @@ export const fontSizes: FontSizeOptions = {
     tiny: { xs: 8, sm: 10 },
     medium: { xs: 12, sm: 13 },
     large: { xs: 14, sm: 16 },
-    extra: { xs: 16, md: 18 },
+    extra: { xs: 16, md: 24 },
     normal: { xs: 13, md: 14 },
 }
 

@@ -3,10 +3,11 @@ import React from "react";
 
 type Props = {
     direction: 'vertical' | 'horizontal',
-    size: 'small' | 'medium' | 'large'
+    size: 'small' | 'medium' | 'large' | 'xsmall'
 }
 
 const spacing = {
+    xsmall: { xs: .1, md: .3 },
     small: { xs: .5, md: 1 },
     medium: { xs: 1, md: 1.5 },
     large: { xs: 1.5, md: 2, lg: 4 }

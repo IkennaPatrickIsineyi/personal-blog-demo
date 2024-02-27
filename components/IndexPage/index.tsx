@@ -5,6 +5,10 @@ import { indexPageStyle } from "./style";
 import UiContainer from '@/components/UiContainer'
 import UiTextBanner from '@/components/UiTextBanner'
 import UiSpacer from '@/components/UiSpacer'
+import RecentPosts from '@/components/RecentPosts'
+import { recentPostSample } from './sampleData'
+
+const recentPosts = recentPostSample
 
 export default function IndexPage() {
     return <Box sx={indexPageStyle.container}>
@@ -13,9 +17,7 @@ export default function IndexPage() {
         <UiSpacer size="large" direction="vertical" />
 
         <UiContainer size="large">
-            <Box>
-                hello home
-            </Box>
+            <RecentPosts posts={recentPosts} />
         </UiContainer>
     </Box>
 }
