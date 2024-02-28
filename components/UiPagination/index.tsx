@@ -31,6 +31,14 @@ export default function UiPagination({ itemsPerPage, pageRangeDisplayed, totalIt
         </IconButton>
     }
 
+    const PaginationLabel = ({ page }: { page: number }) => {
+        return <IconButton sx={{ borderRadius: '8px', }}>
+            <Typography sx={{ borderRadius: '8px', fontFamily: 'inter', px: 1, fontSize: 12, fontWeight: 700 }}>
+                {page}
+            </Typography>
+        </ IconButton>
+    }
+
     return <ReactPaginate
         breakLabel={<MoreHoriz />}
         nextLabel={<PageinationButton direction="next" />}
@@ -42,11 +50,7 @@ export default function UiPagination({ itemsPerPage, pageRangeDisplayed, totalIt
         activeClassName={darkmode ? style.activeClassnameDark : style.activeClassname}
         nextClassName={style.nextClassname}
         pageRangeDisplayed={pageRangeDisplayed}
-        pageLabelBuilder={(page) => <IconButton sx={{ borderRadius: '8px', }}>
-            <Typography sx={{ borderRadius: '8px', fontFamily: 'inter', px: 1, fontSize: 12, fontWeight: 700 }}>
-                {page}
-            </Typography>
-        </ IconButton>}
+        pageLabelBuilder={(page) => <PaginationLabel page={page} />}
         pageCount={pageCount}
         renderOnZeroPageCount={null}
     />
