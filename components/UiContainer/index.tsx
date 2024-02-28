@@ -9,7 +9,7 @@ type Props = {
 const paddingSizes = {
     small: { xs: .5, md: 1 },
     medium: { xs: .8, md: 1.5, lg: 2 },
-    large: { xs: 2, sm: 3, md: 4, lg: 12 }
+    large: { xs: 2, sm: 4, md: 4, lg: 12 }
 }
 
 export default function UiContainer({ size, children }: Props) {

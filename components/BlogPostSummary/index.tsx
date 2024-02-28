@@ -3,6 +3,7 @@ import React from "react";
 import { fontSizes } from "../../utils/sizes";
 import UiSpacer from "../UiSpacer";
 import UiText from '../UiText'
+import moment from "moment";
 
 type Props = {
     id: string,
@@ -32,7 +33,7 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
     }}>
         {/* image */}
         <Box sx={{
-            width: { xs: '100%', md: '100%' }, height: { xs: 'auto' /* '100px', md: '130px', lg: '160px' */ },
+            width: { xs: '100%', md: '100%' }, height: { xs: 'auto' },
         }}>
             <img src={image} style={{ height: '100%', width: '100%', objectFit: 'contain' }} />
         </Box>
@@ -41,7 +42,8 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
 
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', px: { md: 1 }, pb: 1.5 }}>
             {/* Author and date */}
-            <UiText size='small' fontFamily='inter' fontWeight={500} value={`${author}, ${date}`}
+            <UiText size='small' fontFamily='inter' fontWeight={500}
+                value={`${author}, ${moment(date).format('Do MMM yyyy').toString()}`}
                 color='#6941C6'
             />
 
@@ -57,7 +59,7 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
 
             {/* Introduction */}
             <UiText size={headliner ? 'normal' : 'medium'} fontFamily='inter'
-                fontWeight={400} value={introduction}
+                fontWeight={400} value={introduction} maxLines={2}
                 color='text.secondary'
             />
 
@@ -67,7 +69,7 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
             <Box sx={{ display: 'flex', alignItems: 'center', }}>
                 {categories.map((category, index) => {
                     return <Typography key={index} sx={{
-                        bgcolor: `${category.color}10`, color: category.color, fontSize: fontSizes.tiny,
+                        bgcolor: `${category.color}10`, color: category.color, fontSize: fontSizes.small,
                         fontFamily: 'inter', mr: 1, px: 1, py: .5, borderRadius: '4px', textTransform: 'capitalize',
                         fontWeight: 600
                     }}>

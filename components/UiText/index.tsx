@@ -9,11 +9,21 @@ type Props = {
     textAlign?: 'left' | 'right' | 'center',
     fontWeight?: number,
     fontFamily?: typeof fontFamilies,
-    value: string | number
+    value: string | number,
+    maxLines?: number,
 }
 
-export default function UiText({ size, textAlign, color, fontWeight, fontFamily, value }: Props) {
-    return <Typography sx={{ fontSize: fontSizes[size], textAlign, fontFamily, color, fontWeight }}>
+export default function UiText({ size, textAlign, color, maxLines, fontWeight, fontFamily, value }: Props) {
+    return <Typography sx={{
+        fontSize: fontSizes[size], textAlign, fontFamily, color, fontWeight,
+        ...(maxLines ? {
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: maxLines,
+            WebkitBoxOrient: 'vertical',
+        } : {})
+    }}>
         {value}
     </Typography>
 }
