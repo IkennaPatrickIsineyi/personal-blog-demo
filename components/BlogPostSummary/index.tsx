@@ -28,13 +28,15 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
         mb: 2, overflow: 'hidden', cursor: 'pointer', ":hover": { backgroundColor: '#33333330' }, borderRadius: '16px'
     }}>
         {/* image */}
-        <Box sx={{ width: { xs: '100%', md: '100%' }, height: { xs: '100px', md: '130px', lg: '160px' } }}>
-            <img src={image} style={{ height: '100%', width: '100%' }} />
+        <Box sx={{
+            width: { xs: '100%', md: '100%' }, height: { xs: 'auto' /* '100px', md: '130px', lg: '160px' */ },
+        }}>
+            <img src={image} style={{ height: '100%', width: '100%', objectFit: 'contain' }} />
         </Box>
 
         <UiSpacer direction={flex ? "horizontal" : "vertical"} size={flex ? "small" : "small"} />
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', py: 1, px: { md: 1 } }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', px: { md: 1 } }}>
             {/* Author and date */}
             <UiText size='small' fontFamily='inter' fontWeight={500} value={`${author}, ${date}`}
                 color='#6941C6'
