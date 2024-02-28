@@ -17,14 +17,15 @@ type Props = {
     }[],
     flex: boolean,
     fullwidth: boolean,
-    headliner: boolean
+    headliner: boolean,
+    width?: string
 }
 
 export default function BlogPostSummary({ id, image, headliner, date, author, title, introduction, categories,
-    flex, fullwidth }: Props) {
+    flex, fullwidth, width }: Props) {
     return <Box sx={{
-        display: 'flex', flexDirection: flex ? 'row' : 'column', width: '100%', mb: 2, overflow: 'hidden',
-        cursor: 'pointer', ":hover": { backgroundColor: '#33333330' }, borderRadius: '16px'
+        display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', md: width || '100%' },
+        mb: 2, overflow: 'hidden', cursor: 'pointer', ":hover": { backgroundColor: '#33333330' }, borderRadius: '16px'
     }}>
         {/* image */}
         <Box sx={{ width: { xs: '100%', md: '100%' }, height: { xs: '100px', md: '130px', lg: '160px' } }}>

@@ -6,9 +6,11 @@ import UiContainer from '@/components/UiContainer'
 import UiTextBanner from '@/components/UiTextBanner'
 import UiSpacer from '@/components/UiSpacer'
 import RecentPosts from '@/components/RecentPosts'
-import { recentPostSample } from './sampleData'
+import { allPostSample, recentPostSample } from './sampleData'
+import AllPosts from "../AllPosts";
 
 const recentPosts = recentPostSample
+const allPosts = allPostSample
 
 export default function IndexPage() {
     return <Box sx={indexPageStyle.container}>
@@ -18,6 +20,10 @@ export default function IndexPage() {
 
         <UiContainer size="large">
             <RecentPosts posts={recentPosts} />
+        </UiContainer>
+
+        <UiContainer size="large">
+            <AllPosts posts={allPosts} />
         </UiContainer>
     </Box>
 }
