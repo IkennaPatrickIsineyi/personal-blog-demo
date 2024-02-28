@@ -24,7 +24,7 @@ type Props = {
 export default function BlogPostSummary({ id, image, headliner, date, author, title, introduction, categories,
     flex, fullwidth, width }: Props) {
     return <Box sx={{
-        display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', md: width || '100%' },
+        display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', sm: width || '100%' },
         mb: 2, overflow: 'hidden', cursor: 'pointer', ":hover": { backgroundColor: '#33333330' }, borderRadius: '16px'
     }}>
         {/* image */}
