@@ -5,7 +5,7 @@ import UiSpacer from "../UiSpacer";
 import UiText from "../UiText";
 
 type PostType = {
-    id: string,
+    id: string | number,
     image?: string,
     date: string,
     author: string,

@@ -33,7 +33,9 @@ export default function AppBar({ toggleDarkMode, isDarkMode }: Props) {
     return <UiContainer size="large">
         <Box sx={appbarStyle.container}>
             {/* Site name */}
-            <UiText size="extra" value={variables.siteName} fontFamily="inter" fontWeight={700} />
+            <a href={process.env.NEXT_PUBLIC_SITEURL} style={{ textDecoration: 'none' }}>
+                <UiText size="extra" value={variables.siteName} fontFamily="inter" fontWeight={700} />
+            </a>
 
             <Box sx={{ flexGrow: 1 }} />
 

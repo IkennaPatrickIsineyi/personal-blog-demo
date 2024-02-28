@@ -7,7 +7,7 @@ import UiPagination from "../UiPagination";
 import { allPostSample } from "./sampleData";
 
 type PostType = {
-    id: string,
+    id: string | number,
     image?: string,
     date: string,
     author: string,
@@ -51,7 +51,7 @@ export default function AllPosts() {
             {/* Posts */}
             {posts.map((post, index) => {
                 return (
-                    <Box sx={{ mr: { sm: 1, md: 1.5, lg: 2 } }}>
+                    <Box key={index} sx={{ mr: { sm: 1, md: 1.5, lg: 2 } }}>
                         <BlogPostSummary key={index} {...{ ...post, headliner: false, width: '300px', flex: false, fullwidth: false }} />
                     </Box>
                 )
