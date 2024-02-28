@@ -23,7 +23,7 @@ export default function IndexPage() {
         </UiContainer>
 
         <UiContainer size="large">
-            <AllPosts posts={allPosts} />
+            <AllPosts />
         </UiContainer>
     </Box>
 }
