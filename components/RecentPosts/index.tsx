@@ -44,15 +44,38 @@ export default function RecentPosts({ posts }: Props) {
             <Box sx={{
                 display: 'flex', flexDirection: 'column', width: { xs: '100%', lg: '49%' }
             }}>
-                {posts[1] && <BlogPostSummary {...{ ...posts[1], headliner: false, flex: true, fullwidth: true }} />}
+                {/* For mobile */}
+                <Box sx={{ display: { md: 'none' } }}>
+                    {posts[1] && <BlogPostSummary {...{ ...posts[1], headliner: false, flex: false, fullwidth: true }} />}
+                </Box>
+                {/* For others */}
+                <Box sx={{ display: { xs: 'none', md: 'inherit' } }}>
+                    {posts[1] && <BlogPostSummary {...{ ...posts[1], headliner: false, flex: true, fullwidth: true }} />}
+                </Box>
+
                 {/*  <UiSpacer direction="vertical" size="medium" /> */}
-                {posts[2] && <BlogPostSummary {...{ ...posts[2], headliner: false, flex: true, fullwidth: true }} />}
+                {/* For mobile */}
+                <Box sx={{ display: { md: 'none' } }}>
+                    {posts[2] && <BlogPostSummary {...{ ...posts[2], headliner: false, flex: false, fullwidth: true }} />}
+                </Box>
+                {/* For others */}
+                <Box sx={{ display: { xs: 'none', md: 'inherit' } }}>
+                    {posts[2] && <BlogPostSummary {...{ ...posts[2], headliner: false, flex: true, fullwidth: true }} />}
+                </Box>
             </Box>
         </Box>
 
         <UiSpacer direction="vertical" size="medium" />
         {/* Final Post */}
-        {posts[3] && <BlogPostSummary {...{ ...posts[3], headliner: false, flex: true, fullwidth: true }} />}
+        {/* For Desktop */}
+        <Box sx={{ display: { xs: 'none', lg: 'inherit' } }}>
+            {posts[3] && <BlogPostSummary {...{ ...posts[3], headliner: false, flex: true, fullwidth: true }} />}
+        </Box>
+
+        {/* For others */}
+        <Box sx={{ display: { lg: 'none' } }}>
+            {posts[3] && <BlogPostSummary {...{ ...posts[3], headliner: false, flex: false, fullwidth: true }} />}
+        </Box>
 
         <UiSpacer direction="vertical" size="medium" />
     </Box>
