@@ -70,7 +70,7 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
                 {categories.map((category, index) => {
                     return <Typography key={index} sx={{
                         bgcolor: `${category.color}10`, color: category.color, fontSize: fontSizes.small,
-                        fontFamily: 'inter', mr: 1, px: 1, py: .5, borderRadius: '4px', textTransform: 'capitalize',
+                        fontFamily: 'inter', mr: 1, px: 1, py: .5, borderRadius: '8px', textTransform: 'capitalize',
                         fontWeight: 600
                     }}>
                         {category.value}
