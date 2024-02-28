@@ -37,6 +37,8 @@ export default function UiTextField({ placeholder, small, maxLength, min, width,
             }}
         />
 
+
+
         {/* Error message */}
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
             {/* meta.touched && */!noValidation && meta.error ? (
