@@ -1,8 +1,10 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BlogPostSummary from "../BlogPostSummary";
 import UiSpacer from "../UiSpacer";
 import UiText from "../UiText";
+import UiPagination from "../UiPagination";
+import { allPostSample } from "./sampleData";
 
 type PostType = {
     id: string,
@@ -18,10 +20,23 @@ type PostType = {
 }[]
 
 type Props = {
-    posts: PostType
 }
 
-export default function AllPosts({ posts }: Props) {
+export default function AllPosts() {
+    const [posts, setPosts] = useState<PostType>([]);
+    const [totalPosts, setTotalPosts] = useState(0);
+    const [itemsPerPage, setItemsPerPage] = useState(5)
+
+    useEffect(() => {
+        //Get the posts and set the total posts
+        setPosts(allPostSample.slice(0, itemsPerPage));
+        setTotalPosts(allPostSample.length)
+    }, [])
+
+    const onPaginate = ({ offset, endOffset }: { offset: number, endOffset: number }) => {
+        setPosts(allPostSample.slice(offset, endOffset))
+    }
+
     return <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>
         <UiText size='large' fontFamily='inter' fontWeight={700} value={'All Blog Posts'}
             color='text.primary'
@@ -42,6 +57,15 @@ export default function AllPosts({ posts }: Props) {
                 )
             })}
         </Box>
+
+        <UiSpacer direction="vertical" size="small" />
+
+        <UiPagination
+            onPaginate={onPaginate}
+            itemsPerPage={itemsPerPage}
+            pageRangeDisplayed={2}
+            totalItems={totalPosts}
+        />
 
     </Box>
 }
