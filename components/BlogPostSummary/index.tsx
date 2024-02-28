@@ -25,7 +25,10 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
     flex, fullwidth, width }: Props) {
     return <Box sx={{
         display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', sm: width || '100%' },
-        mb: 2, overflow: 'hidden', cursor: 'pointer', ":hover": { backgroundColor: '#33333330' }, borderRadius: '16px'
+        mb: 3, overflow: 'hidden', cursor: 'pointer', ":hover": {
+            backgroundColor: '#33333330',
+            boxShadow: 'rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px'
+        }, borderRadius: '16px'
     }}>
         {/* image */}
         <Box sx={{
@@ -36,7 +39,7 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
 
         <UiSpacer direction={flex ? "horizontal" : "vertical"} size={flex ? "small" : "small"} />
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', px: { md: 1 } }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', px: { md: 1 }, pb: 1.5 }}>
             {/* Author and date */}
             <UiText size='small' fontFamily='inter' fontWeight={500} value={`${author}, ${date}`}
                 color='#6941C6'
