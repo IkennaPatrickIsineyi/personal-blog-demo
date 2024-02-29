@@ -3,8 +3,8 @@ import "./globals.css";
 import Layout from "@/components/Layout";
 
 export const metadata: Metadata = {
-  title: "A blog",
-  description: "This is a blog",
+  title: "Wickrose",
+  description: "This is Wickrose",
 };
 
 export default function RootLayout({ children, }: Readonly<{
