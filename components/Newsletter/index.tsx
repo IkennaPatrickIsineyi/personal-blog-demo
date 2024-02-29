@@ -17,7 +17,9 @@ export default function Newsletter() {
     };
 
     return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-        <UiText size="small" textAlign="center" color="#7F56D9" fontWeight={600} fontFamily="inter"
+        <UiSpacer direction="vertical" size="medium" />
+
+        <UiText size="normal" textAlign="center" color="#7F56D9" fontWeight={600} fontFamily="inter"
             value={'Newsletter'}
         />
 
@@ -29,7 +31,7 @@ export default function Newsletter() {
 
         <UiSpacer direction="vertical" size="small" />
 
-        <UiText size="small" textAlign="center" color="text.secondary" fontWeight={400} fontFamily="inter"
+        <UiText size="normal" textAlign="center" color="text.secondary" fontWeight={400} fontFamily="inter"
             value={'Subscribe to learn about new product features, the latest in technology, solutions, and updates.'}
         />
 
