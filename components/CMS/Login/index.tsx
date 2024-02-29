@@ -77,7 +77,7 @@ export default function Login() {
                                 {/* Submit button */}
                                 <SubmitButton style={{ color: 'white', bgcolor: '#7F56D9' }}
                                     disabled={!formProps.isValid} fullWidth={false}
-                                    marginTop={0} label={'Subscribe'} formProps={formProps}
+                                    marginTop={0} label={'Login'} formProps={formProps}
                                 />
                             </Box>
                         </Form >)

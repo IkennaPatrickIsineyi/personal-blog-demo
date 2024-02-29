@@ -24,7 +24,7 @@ export default function AuthLayout({ children, heading, instruction }: Props) {
             <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, background: '#33333310' }}></div>
 
             {/* Site name */}
-            <Typography sx={{ fontSize: { xs: 20, lg: 34 }, textAlign: 'center', fontWeight: 800, fontFamily: 'inter' }}>
+            <Typography sx={{ fontSize: { xs: 20, sm: 26, lg: 34 }, textAlign: 'center', fontWeight: 800, fontFamily: 'inter' }}>
                 {variables.siteName}
             </Typography>
 
