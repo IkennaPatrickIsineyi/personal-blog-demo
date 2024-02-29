@@ -1,9 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, SxProps } from "@mui/material";
 import React from "react";
 
 type Props = {
     size: 'small' | 'medium' | 'large',
-    children: React.JSX.Element
+    children: React.JSX.Element,
+    sx?: SxProps
 }
 
 const paddingSizes = {
@@ -12,8 +13,8 @@ const paddingSizes = {
     large: { xs: 2, sm: 4, md: 4, lg: 12 }
 }
 
-export default function UiContainer({ size, children }: Props) {
-    return <Box sx={{ px: paddingSizes[size] }}>
+export default function UiContainer({ size, children, sx }: Props) {
+    return <Box sx={{ px: paddingSizes[size], ...sx }}>
         {children}
     </Box>
 }

@@ -17,7 +17,7 @@ export default function NewsletterPage() {
 
             <UiSpacer direction="vertical" size="large" />
 
-            <UiText value={'All blog posts'} size="large" color="text.primary" fontWeight={700} />
+            <UiText value={'Recent blog posts'} size="large" color="text.primary" fontWeight={700} />
 
             <UiSpacer direction="vertical" size="medium" />
 

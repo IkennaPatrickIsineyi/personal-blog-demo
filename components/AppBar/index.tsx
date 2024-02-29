@@ -30,7 +30,7 @@ const menuItems: MenuItemsOptions = [
 ]
 
 export default function AppBar({ toggleDarkMode, isDarkMode }: Props) {
-    return <UiContainer size="large">
+    return <UiContainer size="large" sx={{ position: 'sticky', top: 0, zIndex: 2323 }}>
         <Box sx={appbarStyle.container}>
             {/* Site name */}
             <a href={process.env.NEXT_PUBLIC_SITEURL} style={{ textDecoration: 'none' }}>
