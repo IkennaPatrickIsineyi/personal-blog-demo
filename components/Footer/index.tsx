@@ -14,7 +14,7 @@ const actions = [
 export default function Footer() {
     return <UiContainer size="large" sx={{ mt: 'auto', pb: 2 }}>
         <Box sx={{
-            display: 'flex', alignItems: { xs: 'center', sm: 'flex-start' }, flexDirection: { xs: 'column', sm: 'row' },
+            display: 'flex', alignItems: { xs: 'center', sm: 'flex-start' }, flexDirection: { xs: 'column-reverse', sm: 'row' },
             flexWrap: 'wrap'
         }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
