@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react"
 import { theme } from "./theme"
 import { layoutStyle } from "./style"
 import AppBar from "../AppBar"
+import Footer from '../Footer'
 
 type LayoutType = {
     children: React.ReactNode
@@ -38,6 +39,7 @@ export default function Layout({ children }: LayoutType) {
         <Box sx={layoutStyle.container}>
             <AppBar isDarkMode={state.darkMode} toggleDarkMode={toggleDarkMode} />
             {children}
+            <Footer />
         </Box>
     </ThemeProvider>
 }
