@@ -50,7 +50,7 @@ export default function BlogPostContent(/* { content, recentPosts, title, catego
             flexDirection: { xs: 'column', md: 'row-reverse' }
         }}>
             {/* Post content */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: { xs: '100%', md: '60%', lg: '70%' } }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: { xs: '100%', md: '60%', lg: '65%' } }}>
                 {/* date */}
                 <UiText size='small' fontFamily='inter' fontWeight={500}
                     value={moment(data.date).format('ddd, Do MMM yyyy').toString()}

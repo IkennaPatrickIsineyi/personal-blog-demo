@@ -48,7 +48,7 @@ export default function ProjectSummary({ id, image, headliner, title, introducti
 
             <UiSpacer direction={flex ? "horizontal" : "vertical"} size={flex ? "small" : "small"} />
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', px: { md: 1 }, pb: 1.5 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', px: { xs: 1 }, pb: 1.5 }}>
 
                 {/* Title */}
                 <UiText size={headliner ? 'extra' : 'large'} fontFamily='inter'

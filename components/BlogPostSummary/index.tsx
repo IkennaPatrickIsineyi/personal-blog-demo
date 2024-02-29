@@ -48,7 +48,7 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
 
             <UiSpacer direction={flex ? "horizontal" : "vertical"} size={flex ? "small" : "small"} />
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', px: { md: 1 }, pb: 1.5 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', px: { xs: 1, }, pb: 1.5 }}>
                 {/* Author and date */}
                 <UiText size='small' fontFamily='inter' fontWeight={500}
                     value={`${author}, ${moment(date).format('Do MMM yyyy').toString()}`}
