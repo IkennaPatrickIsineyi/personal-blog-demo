@@ -24,13 +24,14 @@ type Props = {
     open: boolean,
     handleClose: () => void,
     menuItems: MenuOptions,
+    selectedMenu: string,
     handleItemClick: ({ id, path }: { id: string, path: string }) => void,
     isDarkMode: boolean,
     toggleDarkMode: () => void
 }
 
 
-export default function UiSideNavigation({ open, handleClose, isDarkMode, toggleDarkMode,
+export default function UiSideNavigation({ open, handleClose, selectedMenu, isDarkMode, toggleDarkMode,
     menuItems, handleItemClick }: Props) {
     return open && <Modal open={open} onClose={handleClose} sx={{ display: { md: 'none' } }}>
         <Slide direction="right" mountOnEnter unmountOnExit in={true}>
@@ -54,6 +55,7 @@ export default function UiSideNavigation({ open, handleClose, isDarkMode, toggle
                             size="large"
                             value={item.label} fontFamily="inter" textAlign="left"
                             variant="text" color="text.primary"
+                            fontWeight={selectedMenu === item.path ? 700 : 400}
                             handleClick={() => { handleItemClick({ id: item.id, path: item.path }) }} />
                     })}
                 </Box>

@@ -51,6 +51,7 @@ export default function UiNavigation({ menuItems, isDarkMode, toggleDarkMode }: 
 
     const pathMapping: { [key: string]: string } = {
         '/': '/',
+        '/post': '/',
         '/projects': '/projects',
         '/project': '/projects',
         '/newsletter': '/newsletter',
@@ -77,6 +78,7 @@ export default function UiNavigation({ menuItems, isDarkMode, toggleDarkMode }: 
 
         <UiSideNavigation
             open={openMenu}
+            selectedMenu={pathMapping[currentPath]}
             isDarkMode={isDarkMode}
             toggleDarkMode={toggleDarkMode}
             handleItemClick={handleClick}
