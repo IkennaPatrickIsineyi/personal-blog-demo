@@ -6,7 +6,7 @@ import React from "react";
 import UiButton from "../UiButton";
 import UiSpacer from "../UiSpacer";
 import DarkModeButton from "../DarkModeButton";
-import { Cancel, Close } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 
 type MenuOptions = {
     id: string,
@@ -37,7 +37,6 @@ export default function UiSideNavigation({ open, handleClose, isDarkMode, toggle
             <Box sx={{
                 display: 'flex', flexDirection: 'column', px: 2, width: '70vw', alignItems: 'center',
                 backgroundColor: 'background.default', height: '100vh', overflowY: 'auto',
-
             }}>
                 <UiSpacer direction="vertical" size='large' />
 
@@ -52,7 +51,7 @@ export default function UiSideNavigation({ open, handleClose, isDarkMode, toggle
                 <Box sx={{ display: 'flex', flexDirection: 'column', }}>
                     {menuItems.map((item, index) => {
                         return <UiButton key={index} href={item.path}
-                            size="large" /* padding="narrow" *//*  margin="spaced" */ //fontWeight={500}
+                            size="large"
                             value={item.label} fontFamily="inter" textAlign="left"
                             variant="text" color="text.primary"
                             handleClick={() => { handleItemClick({ id: item.id, path: item.path }) }} />

@@ -15,7 +15,7 @@ type Props = {
 
 export default function UiText({ size, textAlign, color, maxLines, fontWeight, fontFamily, value }: Props) {
     return <Typography sx={{
-        fontSize: fontSizes[size], textAlign, fontFamily, color, fontWeight,
+        fontSize: fontSizes[size], textAlign, fontFamily: fontFamily || 'inter', color, fontWeight,
         ...(maxLines ? {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
