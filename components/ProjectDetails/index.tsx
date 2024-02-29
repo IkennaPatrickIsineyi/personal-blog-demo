@@ -88,7 +88,7 @@ export default function ProjectDetails(/* { content, recentPosts, title, categor
             <Box sx={{
                 display: 'flex', flexDirection: { xs: 'column', }, width: { xs: '100%', md: '35%', lg: '25%' },
             }}>
-                <UiText size='large' fontFamily='inter' fontWeight={700} value={'Recent blog posts'}
+                <UiText size='large' fontFamily='inter' fontWeight={700} value={'Recent Projects'}
                     color='text.primary'
                 />
 

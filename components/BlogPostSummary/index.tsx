@@ -34,7 +34,7 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
     return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/post?id=${id}`} style={{ textDecoration: 'none' }}>
         <Box sx={{
             display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', sm: width || '100%' },
-            mb: 3, overflow: 'hidden', cursor: 'pointer', ":hover": {
+            mb: 3, overflow: 'hidden', cursor: 'pointer', alignItems: 'flex-start', ":hover": {
                 backgroundColor: '#33333330',
                 boxShadow: 'rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px'
             }, borderRadius: '16px'
