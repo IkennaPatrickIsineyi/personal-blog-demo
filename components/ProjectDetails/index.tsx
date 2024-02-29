@@ -1,46 +1,45 @@
 'use client'
 
-import { BlogPostType } from "@/utils/types"
+import { ProjectType } from "../../utils/types"
 import { Box, Typography } from "@mui/material"
 import UiContainer from "../UiContainer"
 import UiText from "../UiText"
-import moment from "moment"
-import { fontSizes } from "@/utils/sizes"
-import BlogPostSummary from "../BlogPostSummary"
+import { fontSizes } from "../../utils/sizes"
 import UiSpacer from "../UiSpacer"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import UiLoader from '@/components/UiLoader'
+import UiLoader from '../../components/UiLoader'
 import Newsletter from "../Newsletter"
-import { postContentSample, recentPostSample } from "@/utils/dataSamples"
+import { projectContentSample } from "../../utils/dataSamples"
+import React from "react"
+import { allProjectsSample } from "../../utils/dataSamples"
+import ProjectSummary from "../ProjectSummary"
 
 type DataType = {
     content: string,
-    date: string,
     title: string,
     categories: {
         value: string, color: string
     }[],
-    recentPosts: BlogPostType
+    recentProjects: ProjectType
 }
 
-export default function BlogPostContent(/* { content, recentPosts, title, categories, date }: Props */) {
-    const [data, setData] = useState<DataType>({ content: '', date: '', title: '', categories: [], recentPosts: [] });
+export default function ProjectDetails(/* { content, recentPosts, title, categories, date }: Props */) {
+    const [data, setData] = useState<DataType>({ content: '', title: '', categories: [], recentProjects: [] });
 
-    //Get Id of the post
-    const postId = useSearchParams().get('id');
+    //Get Id of the project
+    const projectId = useSearchParams().get('id');
 
     useEffect(() => {
-        //Get the post content, title, date, categories,recent posts
+        //Get the project content, title, date, categories,recent posts
         setData({
-            content: postContentSample,
-            date: '2024/01/24',
+            content: projectContentSample,
             title: 'Grid system for better Design User Interface',
             categories: [
                 { value: 'design', color: '#6941C6', },
                 { value: 'research', color: '#3538CD' }
             ],
-            recentPosts: recentPostSample
+            recentProjects: allProjectsSample.slice(0, 5)
         })
     }, [])
 
@@ -51,13 +50,6 @@ export default function BlogPostContent(/* { content, recentPosts, title, catego
         }}>
             {/* Post content */}
             <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: { xs: '100%', md: '60%', lg: '70%' } }}>
-                {/* date */}
-                <UiText size='small' fontFamily='inter' fontWeight={500}
-                    value={moment(data.date).format('ddd, Do MMM yyyy').toString()}
-                    color='#6941C6'
-                />
-
-                <UiSpacer direction="vertical" size='small' />
 
                 {/* Title */}
                 <UiText size={'extra'} fontFamily='inter' fontWeight={700} value={data.title}
@@ -92,7 +84,7 @@ export default function BlogPostContent(/* { content, recentPosts, title, catego
 
             </Box>
 
-            {/* Recent posts */}
+            {/* Recent projects */}
             <Box sx={{
                 display: 'flex', flexDirection: { xs: 'column', }, width: { xs: '100%', md: '35%', lg: '25%' },
             }}>
@@ -107,10 +99,10 @@ export default function BlogPostContent(/* { content, recentPosts, title, catego
                     display: 'flex', flexDirection: { xs: 'column', sm: 'row', md: 'column' }, flexWrap: 'wrap',
                     width: '100%',
                 }}>
-                    {data.recentPosts.map((post, index) => {
+                    {data.recentProjects.map((post, index) => {
                         return (
                             <Box key={index} sx={{ mr: { sm: 1, md: 1.5, lg: 2 } }}>
-                                <BlogPostSummary key={index} {...{
+                                <ProjectSummary key={index} {...{
                                     ...post, headliner: false, width: '300px',
                                     flex: false, fullwidth: false
                                 }} />

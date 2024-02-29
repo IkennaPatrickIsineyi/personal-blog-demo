@@ -51,7 +51,7 @@ export default function UiSideNavigation({ open, handleClose, isDarkMode, toggle
                 {/* Menu items */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', }}>
                     {menuItems.map((item, index) => {
-                        return <UiButton key={index}
+                        return <UiButton key={index} href={item.path}
                             size="large" /* padding="narrow" *//*  margin="spaced" */ //fontWeight={500}
                             value={item.label} fontFamily="inter" textAlign="left"
                             variant="text" color="text.primary"

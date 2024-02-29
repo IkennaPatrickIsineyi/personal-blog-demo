@@ -10,3 +10,14 @@ export type BlogPostType = {
         color: string
     }[],
 }[]
+
+export type ProjectType = {
+    id: string | number,
+    image?: string,
+    title: string,
+    introduction: string,
+    categories: {
+        value: string,
+        color: string
+    }[],
+}[]

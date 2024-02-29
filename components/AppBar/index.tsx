@@ -23,7 +23,7 @@ type MenuItemsOptions = {
 }[]
 
 const menuItems: MenuItemsOptions = [
-    { id: 'blog', label: 'Blog', path: '/blog', },
+    { id: 'blog', label: 'Blog', path: '/', },
     { id: 'projects', label: 'Projects', path: '/projects', },
     { id: 'about', label: 'About', path: '/about', },
     { id: 'newsletter', label: 'Newsletter', path: '/newsletter', },

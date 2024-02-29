@@ -4,6 +4,7 @@ import { navigationStyle } from "./style"
 import UiButton from "../UiButton"
 import UiSideNavigation from '@/components/UiSideNavigation'
 import { MenuIcon } from "@/public/icons/icons"
+import { usePathname } from "next/navigation"
 
 type MenuOptions = {
     id: string,
@@ -35,7 +36,7 @@ export default function UiNavigation({ menuItems, isDarkMode, toggleDarkMode }: 
     const [openMenu, setOpenMenu] = useState(false)
 
     const handleClick = ({ id, path }: HandleClickProps): void => {
-
+        setOpenMenu(false)
     }
 
     const handleOpenMenu = () => {
@@ -46,12 +47,25 @@ export default function UiNavigation({ menuItems, isDarkMode, toggleDarkMode }: 
         setOpenMenu(false)
     }
 
+    const currentPath = `/${usePathname().split('/')[1]}`
+
+    const pathMapping: { [key: string]: string } = {
+        '/': '/',
+        '/projects': '/projects',
+        '/project': '/projects',
+        '/newsletter': '/newsletter',
+        '/about': '/about'
+    }
+
+
+    console.log('current path', currentPath);
+
     return <Box sx={navigationStyle.container}>
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {menuItems.map((item, index) => {
-                return <UiButton key={index}
+                return <UiButton key={index} href={item.path}
                     size="large" padding="narrow" margin="spaced" //fontWeight={500}
-                    value={item.label} fontFamily="inter"
+                    value={item.label} fontFamily="inter" fontWeight={pathMapping[currentPath] === item.path ? 700 : 400}
                     variant="text" color="text.primary"
                     handleClick={() => { handleClick({ id: item.id, path: item.path }) }} />
             })}

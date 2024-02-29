@@ -18,13 +18,14 @@ type Props = {
     textAlign?: 'left' | 'right' | 'center',
     leftIcon?: JSX.Element | 'string',
     rightIcon?: JSX.Element | 'string',
+    href?: string,
     handleClick: () => any,
 }
 
-export default function UiButton({ size, color, variant, fontFamily, hoverColor, hoverBgColor,
+export default function UiButton({ size, href, color, variant, fontFamily, hoverColor, hoverBgColor,
     handleClick, leftIcon, rightIcon, fontWeight, value, padding, margin, textAlign }: Props) {
     return <Button
-        variant={variant}
+        variant={variant} href={href}
         sx={{
             fontSize: fontSizes[size], color, textAlign,
             mx: margin && (margin === 'tight' ? 1 : 2), my: margin === 'spaced' ? 1.5 : .5,
