@@ -30,24 +30,26 @@ const menuItems: MenuItemsOptions = [
 ]
 
 export default function AppBar({ toggleDarkMode, isDarkMode }: Props) {
-    return <UiContainer size="large" sx={{ position: 'sticky', top: 0, zIndex: 2323 }}>
-        <Box sx={appbarStyle.container}>
-            {/* Site name */}
-            <a href={process.env.NEXT_PUBLIC_SITEURL} style={{ textDecoration: 'none' }}>
-                <UiText size="extra" value={variables.siteName} color='text.primary'
-                    fontFamily="inter" fontWeight={700}
-                />
-            </a>
+    return <Box sx={{ position: 'sticky', top: 0, zIndex: 2323, width: '100%', backgroundColor: 'background.default' }}>
+        <UiContainer size="large" sx={{}}>
+            <Box sx={appbarStyle.container}>
+                {/* Site name */}
+                <a href={process.env.NEXT_PUBLIC_SITEURL} style={{ textDecoration: 'none' }}>
+                    <UiText size="extra" value={variables.siteName} color='text.primary'
+                        fontFamily="inter" fontWeight={700}
+                    />
+                </a>
 
-            <Box sx={{ flexGrow: 1 }} />
+                <Box sx={{ flexGrow: 1 }} />
 
-            {/* Navigation */}
-            <UiNavigation menuItems={menuItems} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+                {/* Navigation */}
+                <UiNavigation menuItems={menuItems} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
 
-            {/* Darkmode button */}
-            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                <DarkModeButton isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+                {/* Darkmode button */}
+                <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                    <DarkModeButton isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+                </Box>
             </Box>
-        </Box>
-    </UiContainer>
+        </UiContainer>
+    </Box>
 }

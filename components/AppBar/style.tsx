@@ -11,7 +11,7 @@ export const appbarStyle: PropKeys = {
         color: 'text.primary',
         display: 'flex',
         alignItems: 'center',
-        py: spacing.large,
+        py: spacing.small,
         /*   px: spacing.medium,
           py: spacing.normal */
     },

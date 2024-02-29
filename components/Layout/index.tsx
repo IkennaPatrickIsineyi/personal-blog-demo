@@ -39,6 +39,7 @@ export default function Layout({ children }: LayoutType) {
     return <ThemeProvider theme={theme({ darkMode: state.darkMode })}>
         <Box sx={layoutStyle.container}>
             <AppBar isDarkMode={state.darkMode} toggleDarkMode={toggleDarkMode} />
+            <UiSpacer direction="vertical" size="small" />
             {children}
             <UiSpacer direction="vertical" size="medium" />
             <Footer />
