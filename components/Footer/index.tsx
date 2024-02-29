@@ -17,17 +17,20 @@ export default function Footer() {
             display: 'flex', alignItems: { xs: 'center', sm: 'flex-start' }, flexDirection: { xs: 'column', sm: 'row' },
             flexWrap: 'wrap'
         }}>
-            {/* Site name */}
-            <a href={process.env.NEXT_PUBLIC_SITEURL} style={{ textDecoration: 'none', marginRight: '8px' }}>
-                <UiText size="normal" value={variables.siteName} color='text.primary'
-                    fontFamily="inter" fontWeight={700}
-                />
-            </a>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {/* Site name */}
+                <a href={process.env.NEXT_PUBLIC_SITEURL} style={{ textDecoration: 'none', marginRight: '8px' }}>
+                    <UiText size="normal" value={variables.siteName} color='text.primary'
+                        fontFamily="inter" fontWeight={700}
+                    />
+                </a>
 
-            {/* copyright */}
-            <UiText size="normal" value={`© ${moment().format('yyyy').toString()}`} color='text.primary'
-                fontFamily="inter" fontWeight={400} sx={{ mr: 1 }}
-            />
+                {/* copyright */}
+                <UiText size="normal" value={`© ${moment().format('yyyy').toString()}`} color='text.primary'
+                    fontFamily="inter" fontWeight={400} sx={{ mr: 1 }}
+                />
+            </Box>
+
 
             {/* Action buttons */}
             {actions.map((item, index) => {

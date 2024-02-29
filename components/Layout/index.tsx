@@ -6,6 +6,7 @@ import { theme } from "./theme"
 import { layoutStyle } from "./style"
 import AppBar from "../AppBar"
 import Footer from '../Footer'
+import UiSpacer from "../UiSpacer"
 
 type LayoutType = {
     children: React.ReactNode
@@ -39,6 +40,7 @@ export default function Layout({ children }: LayoutType) {
         <Box sx={layoutStyle.container}>
             <AppBar isDarkMode={state.darkMode} toggleDarkMode={toggleDarkMode} />
             {children}
+            <UiSpacer direction="vertical" size="medium" />
             <Footer />
         </Box>
     </ThemeProvider>
