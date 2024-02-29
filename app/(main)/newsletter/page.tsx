@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Metadata } from "next";
-import NewsletterPage from "../../components/NewsletterPage";
+import NewsletterPage from "../../../components/NewsletterPage";
 
 export const metadata: Metadata = {
     title: "Newsletter",

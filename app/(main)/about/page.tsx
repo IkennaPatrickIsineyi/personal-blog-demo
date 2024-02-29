@@ -1,6 +1,6 @@
 
 import React from "react";
-import About from "../../components/About";
+import About from "../../../components/About";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
