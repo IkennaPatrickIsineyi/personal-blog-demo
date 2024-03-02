@@ -1,5 +1,5 @@
-export const passwordResetTemplate = ({ url }) => {
-    return `
+export const passwordResetTemplate = ({ url }: { url: string }) => {
+  return `
     <!doctype html>
     <html>
       <head>
