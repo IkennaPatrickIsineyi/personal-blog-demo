@@ -1,4 +1,6 @@
-/* import { useEffect } from "react"
+import React, { useEffect, useState } from "react"
+
+import axios from 'axios'
 
 type ReturnType = {
     data: any
@@ -6,22 +8,62 @@ type ReturnType = {
 
 type Props = {
     method: any,
-    body?: any
+    body?: any,
+    url: string
 }
 
-export const api = async () => {
-    let controller: AbortController
+export const useApi = () => {
 
-    const x = { method: 'GET' }
+    const [processing, setProcessing] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null)
+    const [success, setSuccess] = useState<string | null>(null)
+
+    const controller = new AbortController();
+
 
     useEffect(() => {
-        controller = new AbortController();
-
-        return
+        return () => {
+            console.log('aborting request')
+            controller.abort()
+        }
     }, [])
 
-    const result = await (await fetch(x)).json()
+    useEffect(() => {
+        error && setError(null);
+        success && setSuccess(null);
+    }, [processing])
+
+    const request = async ({ method, body, url }: Props) => {
+        setProcessing(true);
+
+        try {
+            const response = await axios({
+                method,
+                data: body,
+                url,
+                baseURL: process.env.NEXT_PUBLIC_SITEURL,
+                signal: controller.signal
+            });
+
+            if (response && response.status === 200) {
+                setProcessing(false)
+                setTimeout(() => {
+                    response.data?.error && setError(response.data?.error)
+                    response.data?.successMsg && setSuccess(response.data?.successMsg)
+                }, 100);
+                return response.data
+            }
+            else {
+                setProcessing(false)
+                return { data: null }
+            }
+        } catch (error) {
+            console.log('api request error', error)
+            setProcessing(false)
+            return { data: null }
+        }
+    }
 
 
-    return { data: result }
-} */
+    return { processing, request, error, success }
+}

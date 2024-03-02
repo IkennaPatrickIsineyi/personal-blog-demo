@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Layout from "@/components/Layout";
 import AuthLayout from "@/components/CMS/CMSLayout/AuthLayout";
 import { Box } from "@mui/material";
+import { useEffect } from "react";
+import { connectDb } from "@/utils/connectDb";
 
 export const metadata: Metadata = {
   title: "Wickrose CMS",
@@ -11,6 +13,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  connectDb();
+
   return (
     <html lang="en">
       <head>

@@ -8,12 +8,13 @@ type Props = {
     maxLength?: number,
     min?: number,
     noValidation?: boolean,
+    type?: string,
     width?: string,
     variant?: 'outlined',
     // props: FieldHookConfig<any>
 }
 
-export default function UiTextField({ placeholder, small, maxLength, min, width,
+export default function UiTextField({ placeholder, small, maxLength, min, width, type,
     noValidation, variant, ...props }: Props & FieldHookConfig<any>) {
     const [field, meta, helpers] = useField(props);
     const [length, setLength] = useState(meta?.value?.length ?? 0);
@@ -23,7 +24,7 @@ export default function UiTextField({ placeholder, small, maxLength, min, width,
 
     return <Box sx={{ width }}>
         {/* Text field */}
-        <OutlinedInput {...field} /* {...props} */ name={field.name} id={props.id}
+        <OutlinedInput {...field} /* {...props} */ type={type || 'text'} name={field.name} id={props.id}
             fullWidth inputProps={{
                 min: min ?? 0,
                 ...(maxLength ? { maxLength } : {})

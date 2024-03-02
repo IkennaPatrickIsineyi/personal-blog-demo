@@ -5,19 +5,31 @@ import { useEffect, useState } from "react";
 import LoginStatusCheck from "../LoginStatusCheck";
 import * as Yup from 'yup'
 import AuthLayout from "../CMSLayout/AuthLayout";
-import { Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import { loginSchema } from "@/services/formSchema";
 import UiTextField from "@/components/UiTextField";
 import UiSpacer from "@/components/UiSpacer";
 import SubmitButton from "@/components/SubmitButton";
 import FieldLabel from "@/components/FieldLabel";
+import { useApi } from "@/services/api";
+import UiButton from "@/components/UiButton";
+import { useRouter } from "next/navigation";
+import FormMessage from "@/components/FormMessage";
 
 export default function Login() {
     const [showForm, setShowForm] = useState(false);
     const [initialValues] = useState({ email: '' });
+    const router = useRouter()
+
+    const { request, processing, error, success } = useApi()
 
     const handleFormSubmit = async (values: {}) => {
+        const { data } = await request({ method: 'POST', url: '/api/sign-in', body: values });
 
+        if (data) {
+            console.log('user has been logged in', data);
+            window.location.reload()
+        }
     };
 
 
@@ -27,6 +39,10 @@ export default function Login() {
             setShowForm(true)
         }, 4000)
     }, [])
+
+    const handleForgotPassword = () => {
+        router.push('/cms/forgot-password')
+    }
 
 
 
@@ -45,6 +61,7 @@ export default function Login() {
                                 display: 'flex', flexDirection: 'column',
                                 maxWidth: '100%', alignItems: 'center'
                             }}>
+                                <FormMessage error={error} success={success} />
                                 <Box sx={{
                                     display: 'flex', flexWrap: 'wrap', flexDirection: 'column',
                                     maxWidth: '100%', alignItems: 'flex-start'
@@ -75,9 +92,15 @@ export default function Login() {
                                 <UiSpacer direction="vertical" size="medium" />
 
                                 {/* Submit button */}
-                                <SubmitButton style={{ color: 'white', bgcolor: '#7F56D9' }}
-                                    disabled={!formProps.isValid} fullWidth={false}
-                                    marginTop={0} label={'Login'} formProps={formProps}
+                                <SubmitButton style={{ color: 'white', /* bgcolor: '#7F56D9' */ }}
+                                    disabled={!formProps.isValid || processing} fullWidth={true}
+                                    marginTop={0} label={'Login'} formProps={formProps} processing={processing}
+                                />
+
+                                <UiSpacer direction="vertical" size="small" />
+
+                                <UiButton size="small" value='forgot password?' textAlign="right" letterCase="capitalize"
+                                    variant="text" handleClick={handleForgotPassword}
                                 />
                             </Box>
                         </Form >)

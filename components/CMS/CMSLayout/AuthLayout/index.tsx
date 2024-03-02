@@ -1,15 +1,24 @@
 import UiSpacer from "@/components/UiSpacer";
 import UiText from "@/components/UiText";
 import { variables } from "@/utils/variables";
-import { Box, Typography } from "@mui/material";
+import { West } from "@mui/icons-material";
+import { Box, IconButton, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 type Props = {
     children: React.ReactNode,
     heading: string,
-    instruction: string
+    instruction: string,
+    includeBackButton?: boolean
 }
 
-export default function AuthLayout({ children, heading, instruction }: Props) {
+export default function AuthLayout({ children, includeBackButton, heading, instruction }: Props) {
+    const router = useRouter();
+
+    const goBack = () => {
+        router.back()
+    }
+
     return <Box sx={{
         display: 'flex', maxWidth: '100%', height: '100vh', overflowY: 'auto',
         flexDirection: { xs: 'column', sm: 'row' }
@@ -42,14 +51,23 @@ export default function AuthLayout({ children, heading, instruction }: Props) {
         {/* Children */}
         <Box sx={{
             display: 'flex', flexDirection: 'column', width: { xs: '100vw', sm: '60vw', md: '50vw' },
-            justifyContent: 'center', height: '100vh', alignItems: 'center'
+            justifyContent: 'center', height: '100vh', alignItems: 'center', position: 'relative'
         }}>
+
+            {includeBackButton && <IconButton onClick={goBack} sx={{
+                position: 'absolute', top: 20, left: 20
+            }}>
+                <West />
+            </IconButton>}
+
+
             {/* Heading */}
             <UiText value={heading} size="extra" fontWeight={800} textAlign="center" />
             <UiSpacer direction="vertical" size="xsmall" />
 
             {/* Instruction */}
-            <UiText value={instruction} size="small" textAlign="center" fontWeight={600} />
+            <UiText value={instruction} size="small" textAlign="center" fontWeight={600}
+                sx={{ maxWidth: { xs: '80%', sm: '70%', md: '50%' } }} />
             <UiSpacer direction="vertical" size="small" />
 
             {children}

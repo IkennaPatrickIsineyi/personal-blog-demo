@@ -19,15 +19,16 @@ type Props = {
     leftIcon?: JSX.Element | 'string',
     rightIcon?: JSX.Element | 'string',
     href?: string,
+    letterCase?: 'uppercase' | 'capitalize' | 'lowercase'
     handleClick: () => any,
 }
 
-export default function UiButton({ size, href, color, variant, fontFamily, hoverColor, hoverBgColor,
+export default function UiButton({ size, href, color, variant, fontFamily, hoverColor, hoverBgColor, letterCase,
     handleClick, leftIcon, rightIcon, fontWeight, value, padding, margin, textAlign }: Props) {
     return <Button
         variant={variant} href={href}
         sx={{
-            fontSize: fontSizes[size], color, textAlign,
+            fontSize: fontSizes[size], color, textAlign, textTransform: letterCase,
             mx: margin && (margin === 'tight' ? 1 : 2), my: margin === 'spaced' ? 1.5 : .5,
             px: padding && (padding === 'narrow' ? 1 : 2), py: padding === 'narrow' ? .5 : 1,
             ":hover": {

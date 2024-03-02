@@ -21,3 +21,9 @@ export type ProjectType = {
         color: string
     }[],
 }[]
+
+export type SessionData = {
+    email: string,
+    userId: string | number,
+    token?: string
+}
