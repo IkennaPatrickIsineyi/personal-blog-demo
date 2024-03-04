@@ -28,7 +28,7 @@ export default function Login() {
 
         if (data) {
             console.log('user has been logged in', data);
-            window.location.reload()
+            window.location.href = '/cms/blog'
         }
     };
 
@@ -43,8 +43,6 @@ export default function Login() {
     const handleForgotPassword = () => {
         router.push('/cms/forgot-password')
     }
-
-
 
     return <AuthLayout heading="Login" instruction="Login with your email and password">
         {!showForm

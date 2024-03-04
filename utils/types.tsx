@@ -27,3 +27,14 @@ export type SessionData = {
     userId: string | number,
     token?: string
 }
+
+export type MenuOptions = {
+    id: string,
+    label: string,
+    path: string,
+    children?: {
+        id: string,
+        label: string,
+        path: string,
+    }[]
+}[]

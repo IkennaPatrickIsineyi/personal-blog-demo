@@ -38,7 +38,7 @@ export default function UiButton({ size, href, color, variant, fontFamily, hover
         }}
         onClick={handleClick}>
         {leftIcon}
-        <UiText value={value} fontFamily={fontFamily} size={size} fontWeight={fontWeight} />
+        <UiText value={value} textAlign={textAlign} fontFamily={fontFamily} size={size} fontWeight={fontWeight} />
         {rightIcon}
     </Button>
 }
