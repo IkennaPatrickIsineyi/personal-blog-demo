@@ -1,10 +1,11 @@
-import { Box, Typography } from "@mui/material";
-import React from "react";
+import { Box, IconButton, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { fontSizes } from "../../utils/sizes";
 import UiSpacer from "../UiSpacer";
 import UiText from '../UiText'
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import { Delete, Edit, Visibility } from "@mui/icons-material";
 
 type Props = {
     id: string | number,
@@ -18,27 +19,59 @@ type Props = {
         color: string
     }[],
     flex: boolean,
+    editable?: boolean,
     fullwidth: boolean,
     headliner: boolean,
     width?: string
 }
 
 export default function BlogPostSummary({ id, image, headliner, date, author, title, introduction, categories,
-    flex, fullwidth, width }: Props) {
+    flex, fullwidth, width, editable = false }: Props) {
     const router = useRouter();
+
+    const [showActionRow, setShowActionRow] = useState<boolean>(false)
 
     const handleClick = ({ id }: { id: number | string }) => {
         router.push(`/post?id=${id}`)
     }
 
+
+    const onMouseOut = () => {
+        setShowActionRow(false)
+    }
+    const onMouseIn = () => {
+        setShowActionRow(true)
+    }
+
     return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/post?id=${id}`} style={{ textDecoration: 'none' }}>
-        <Box sx={{
-            display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', sm: width || '100%' },
-            mb: 3, overflow: 'hidden', cursor: 'pointer', alignItems: 'flex-start', ":hover": {
-                backgroundColor: '#33333330',
-                boxShadow: 'rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px'
-            }, borderRadius: '16px'
-        }}/*  onClick={() => { handleClick({ id }) }} */>
+        <Box onMouseEnter={onMouseIn} onMouseLeave={onMouseOut}
+            sx={{
+                display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', sm: width || '100%' },
+                mb: 3, overflow: 'hidden', cursor: 'pointer', alignItems: 'flex-start', ":hover": {
+                    backgroundColor: '#33333330',
+                    boxShadow: 'rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px'
+                }, borderRadius: '16px', position: 'relative'
+            }}>
+            {editable && <Box sx={{
+                display: showActionRow ? 'flex' : 'none', alignItems: 'center',
+                maxWidth: '100%', position: 'absolute', top: 0, left: 0, pl: 2, bgcolor: '#FFFFFF90'
+            }}>
+                {/* Edit button */}
+                <IconButton sx={{ mr: 2, color: 'primary.main' }}>
+                    <Edit />
+                </IconButton>
+
+                {/* Delete button */}
+                <IconButton sx={{ mr: 1, color: 'primary.main' }}>
+                    <Delete />
+                </IconButton>
+
+                {/* View button */}
+                <IconButton sx={{ color: 'primary.main' }}>
+                    <Visibility />
+                </IconButton>
+            </Box>}
+
             {/* image */}
             <Box sx={{
                 width: { xs: '100%', md: '100%' }, height: { xs: 'auto' },
@@ -85,8 +118,9 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
                         </Typography>
                     })}
                 </Box>
+
             </Box>
         </Box>
-    </a>
+    </a >
 
 }

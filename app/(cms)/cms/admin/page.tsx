@@ -1,4 +1,4 @@
-import Admin from "@/components/CMS/Admin";
+import Admin from "@/components/CMS/Admin/DataView";
 import DataLayout from "@/components/CMS/CMSLayout/DataLayout";
 
 export default function Page() {

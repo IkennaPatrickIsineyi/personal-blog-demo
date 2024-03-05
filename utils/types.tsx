@@ -38,3 +38,9 @@ export type MenuOptions = {
         path: string,
     }[]
 }[]
+
+export type DropdownDataType = {
+    image?: string,
+    label?: string,
+    value?: string
+}[]

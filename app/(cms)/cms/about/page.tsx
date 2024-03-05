@@ -1,4 +1,4 @@
-import About from "@/components/CMS/About";
+import About from "@/components/CMS/About/DataView";
 import DataLayout from "@/components/CMS/CMSLayout/DataLayout";
 
 export default function Page() {

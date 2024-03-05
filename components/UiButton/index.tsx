@@ -11,7 +11,7 @@ type Props = {
     hoverBgColor?: string,
     fontWeight?: number,
     value: string | number,
-    variant: 'contained' | 'text' | 'outlined',
+    variant?: 'contained' | 'text' | 'outlined',
     fontFamily?: typeof fontFamilies,
     padding?: 'narrow' | 'wide',
     margin?: 'tight' | 'spaced'
@@ -20,11 +20,12 @@ type Props = {
     rightIcon?: JSX.Element | 'string',
     href?: string,
     letterCase?: 'uppercase' | 'capitalize' | 'lowercase'
-    handleClick: () => any,
+    handleClick?: () => any,
 }
 
-export default function UiButton({ size, href, color, variant, fontFamily, hoverColor, hoverBgColor, letterCase,
-    handleClick, leftIcon, rightIcon, fontWeight, value, padding, margin, textAlign }: Props) {
+export default function UiButton({ size, href, color, variant = 'contained', fontFamily, hoverColor,
+    hoverBgColor, letterCase, handleClick = () => { }, leftIcon, rightIcon, fontWeight, value, padding, margin,
+    textAlign }: Props) {
     return <Button
         variant={variant} href={href}
         sx={{
