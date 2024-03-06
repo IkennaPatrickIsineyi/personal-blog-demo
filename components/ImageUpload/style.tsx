@@ -26,7 +26,7 @@ export const fileUploadStyle: Props = {
         cursor: 'pointer', fontSize: { xs: 11, md: 12, lg: 12 }, display: 'flex', alignItems: 'center',
         color: 'primary.main', mr: .5, textDecoration: 'underline'
     },
-    dragLabel: { fontSize: { xs: 11, md: 12, lg: 14 }, display: 'flex', alignItems: 'center' },
+    dragLabel: { fontSize: { xs: 11, md: 12, lg: 14 }, display: { xs: 'none', md: 'flex' }, alignItems: 'center' },
     imageInfo: {
         fontSize: { xs: 8, md: 10, lg: 12 }, fontWeight: 500, color: '#898989', whiteSpace: 'normal', maxWidth: '80%', textAlign: 'center',
         display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'

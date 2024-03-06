@@ -39,7 +39,7 @@ export default function UiTextArea({ placeholder, maxLength, rows, variant = 'ou
 
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
 
-            {meta.touched && meta.error ? (
+            {/* meta.touched && */ meta.error ? (
                 <Typography style={{ color: 'red', fontSize: 11, marginTop: '4px' }}>{meta.error}</Typography>
             ) : null}
 

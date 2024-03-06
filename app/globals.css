@@ -1,3 +1,9 @@
+img[src*="#editorImage"] {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 /* :root {
   --max-width: 1100px;
   --border-radius: 12px;

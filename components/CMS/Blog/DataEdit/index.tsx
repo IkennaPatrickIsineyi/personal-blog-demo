@@ -17,10 +17,13 @@ import { Form, Formik, FormikProps } from "formik";
 import { useCallback, useEffect, useState } from "react";
 import '@mdxeditor/editor/style.css'
 import * as Yup from 'yup';
+import DataPreview from "../DataPreview";
+import SubmitButton from "@/components/SubmitButton";
 
 export default function EditBlog() {
     const [users, setUsers] = useState<DropdownDataType>([]);
     const [categories, setCategories] = useState<DropdownDataType>([]);
+    const [showPreview, setShowPreview] = useState(false)
 
     useEffect(() => {
         setUsers([
@@ -71,6 +74,14 @@ export default function EditBlog() {
         formProps.setFieldValue('content', value)
     }, [])
 
+    const openPreview = () => {
+        setShowPreview(true)
+    }
+
+    const closePreview = () => {
+        setShowPreview(false)
+    }
+
 
     return <UiContainer size="medium">
         <Box>
@@ -91,7 +102,7 @@ export default function EditBlog() {
                                 {/* Image */}
                                 <Box sx={{
                                     width: { xs: '100%', sm: '30%', md: '30%' }, mr: { sm: 2, lg: 4 },
-                                    mb: 2
+                                    mb: { xs: 5, md: 2 }
                                 }}>
                                     <FieldLabel label={'Summary Image'} />
                                     <ImageUpload handleChange={(fileUrl) => { handleFileUpload(fileUrl, formProps, 'summaryImage') }}
@@ -157,40 +168,61 @@ export default function EditBlog() {
                                 </Box>
                             </Box>
 
+                            <UiSpacer direction="vertical" size="large" />
+
                             {/* Full content section */}
-                            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
-                                <FieldLabel label={'Blog Post'} />
+                            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                <FieldLabel label={'Blog Post Content'} />
                                 <Editor
                                     handleChange={(value?: string) => { handleContent({ value, formProps }) }}
-                                    imageFolder="posts"
+                                    imageFolder="posts" content={formProps.values.content || ''}
                                     placeholder="Create your content here..."
+                                    openPreview={openPreview} error={formProps.errors.content || ''}
                                 />
                             </Box>
 
+                            <UiSpacer direction="vertical" size="large" />
+
                             {/* Meta data section */}
-                            <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                                 {/* Meta title */}
+                                <Box sx={{ mb: 1 }}>
+                                    {/* Label */}
+                                    <FieldLabel label={'Meta Title'} />
+
+                                    {/* Textfield */}
+                                    <UiTextField placeholder={'Blog post meta title for SEO...'} name='metaTitle' />
+                                </Box>
+
                                 {/* Meta description */}
+                                <Box sx={{ mb: 1 }}>
+                                    {/* Label */}
+                                    <FieldLabel label={'Meta Description'} />
+
+                                    {/* Textfield */}
+                                    <UiTextArea placeholder={'Blog post meta description for SEO...'} name='metaDescription' />
+                                </Box>
+
                             </Box>
+
+                            <UiSpacer direction="vertical" size="large" />
+
+                            {/* Submit button */}
+                            <SubmitButton style={{ color: 'white', width: { xs: '90%', sm: '60%' } }}
+                                disabled={!formProps.isValid || processing} fullWidth={true}
+                                marginTop={0} label={'Create'} formProps={formProps} processing={processing}
+                            />
+
+                            <UiSpacer direction="vertical" size="large" />
                         </Box>
+
+                        {showPreview && <DataPreview content={formProps.values.content} open={showPreview}
+                            handleClose={closePreview}
+                        />}
                     </Form>)
                 }}
+
             </Formik>
-
-            <UiSpacer direction="vertical" size="small" />
-
-            {/* Full content section */}
-            <Box>
-
-            </Box>
-
-            <UiSpacer direction="vertical" size="small" />
-
-            {/* Meta data section*/}
-            <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>
-                {/* Meta title */}
-                {/* Meta description */}
-            </Box>
         </Box>
     </UiContainer>
 }

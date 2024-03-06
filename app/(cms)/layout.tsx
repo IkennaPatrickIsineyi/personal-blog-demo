@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { connectDb } from "@/utils/connectDb";
 import '@mdxeditor/editor/style.css'
+import '@/app/globals.css'
 
 export const metadata: Metadata = {
   title: "Wickrose CMS",
