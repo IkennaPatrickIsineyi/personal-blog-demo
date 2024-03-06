@@ -24,7 +24,7 @@ export default function UiTextArea({ placeholder, maxLength, rows, variant = 'ou
 
     const [length, setLength] = useState(meta?.value?.length ?? 0);
 
-    const handleChange = (value) => {
+    const handleChange = (value?: string) => {
         helpers.setValue(value)
     }
 

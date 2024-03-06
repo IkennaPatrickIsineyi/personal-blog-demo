@@ -159,6 +159,7 @@ export default function EditBlog() {
 
                             {/* Full content section */}
                             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
+                                <FieldLabel label={'Blog Post'} />
                                 <Editor
                                     handleChange={(value?: string) => { handleContent({ value, formProps }) }}
                                     imageFolder="posts"
