@@ -59,8 +59,8 @@ export const useFileUpload = () => {
                 });
 
                 if (response && response.status === 200) {
-                    console.log('file uploaded', response.data?.url)
-                    return { [index]: response.data?.url }
+                    console.log('file uploaded', response.data?.secure_url)
+                    return { [index]: response.data?.secure_url }
                 }
                 else {
                     console.log('upload failed')
