@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import Layout from "@/components/Layout";
-import AuthLayout from "@/components/CMS/CMSLayout/AuthLayout";
-import { Box } from "@mui/material";
-import { useEffect } from "react";
 import { connectDb } from "@/utils/connectDb";
+import '@mdxeditor/editor/style.css'
 
 export const metadata: Metadata = {
   title: "Wickrose CMS",

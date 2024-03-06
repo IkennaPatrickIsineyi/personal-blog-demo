@@ -1,7 +1,7 @@
 import EditBlog from "@/components/CMS/Blog/DataEdit";
-import Blog from "@/components/CMS/Blog/DataView";
 import DataLayout from "@/components/CMS/CMSLayout/DataLayout";
 import { Metadata } from "next";
+import '@mdxeditor/editor/style.css'
 
 export const metadata: Metadata = {
     title: "Create Blog | Wickrose CMS",

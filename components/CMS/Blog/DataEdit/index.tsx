@@ -2,6 +2,7 @@
 
 import DropdownField from "@/components/DropdownField/DropdownField";
 import DropdownItemsBuilder from "@/components/DropdownField/DropdownItemsBuilder";
+import Editor from "@/components/EditorComponent";
 import FieldLabel from "@/components/FieldLabel";
 import ImageUpload from "@/components/ImageUpload/ImageUpload";
 import UiContainer from "@/components/UiContainer";
@@ -13,7 +14,8 @@ import { blogSchema } from "@/services/formSchema";
 import { DropdownDataType } from "@/utils/types";
 import { Box } from "@mui/material";
 import { Form, Formik, FormikProps } from "formik";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import '@mdxeditor/editor/style.css'
 import * as Yup from 'yup';
 
 export default function EditBlog() {
@@ -64,6 +66,10 @@ export default function EditBlog() {
             formProps.setFieldValue(fieldId, [...(formProps.values[fieldId] || []), value])
         }
     }
+
+    const handleContent = useCallback(({ value, formProps }: { value?: string, formProps: FormikProps<any> }) => {
+        formProps.setFieldValue('content', value)
+    }, [])
 
 
     return <UiContainer size="medium">
@@ -149,6 +155,21 @@ export default function EditBlog() {
                                         />
                                     </Box>
                                 </Box>
+                            </Box>
+
+                            {/* Full content section */}
+                            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
+                                <Editor
+                                    handleChange={(value?: string) => { handleContent({ value, formProps }) }}
+                                    imageFolder="posts"
+                                    placeholder="Create your content here..."
+                                />
+                            </Box>
+
+                            {/* Meta data section */}
+                            <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>
+                                {/* Meta title */}
+                                {/* Meta description */}
                             </Box>
                         </Box>
                     </Form>)
