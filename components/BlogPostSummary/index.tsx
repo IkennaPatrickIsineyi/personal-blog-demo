@@ -5,7 +5,7 @@ import UiSpacer from "../UiSpacer";
 import UiText from '../UiText'
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { Delete, Edit, Visibility } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { useApi } from "@/services/api";
 import UiLoader from "../UiLoader";
 
@@ -35,11 +35,6 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
     const [showActionRow, setShowActionRow] = useState<boolean>(false)
 
     const { request, error, processing } = useApi()
-
-    const handleClick = ({ id }: { id: number | string }) => {
-        router.push(`/post?id=${id}`)
-    }
-
 
     const onMouseOut = () => {
         setShowActionRow(false)

@@ -21,6 +21,7 @@ import DataPreview from "../DataPreview";
 import SubmitButton from "@/components/SubmitButton";
 import { useSearchParams } from "next/navigation";
 import UiLoader from "@/components/UiLoader";
+import CollapseContainer from "@/components/CollapseContainer";
 
 let initialised = false;
 export default function EditBlog() {
@@ -129,112 +130,118 @@ export default function EditBlog() {
                                 width: '100%', alignItems: 'center'
                             }}>
                                 {/* Post summary section */}
-                                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
-                                    {/* Image */}
-                                    <Box sx={{
-                                        width: { xs: '100%', sm: '30%', md: '30%' }, mr: { sm: 2, lg: 4 },
-                                        mb: { xs: 5, md: 2 }
-                                    }}>
-                                        <FieldLabel label={'Summary Image'} />
-                                        <ImageUpload handleChange={(fileUrl) => { handleFileUpload(fileUrl, formProps, 'summaryImage') }}
-                                            fileHeight={'1440'} fileWidth={'400'} maxSize={'50MB'} height={'15vw'} width='100%'
-                                            multiple={false} file={formProps?.values?.summaryImage}
-                                            errorMsg={(formProps.errors?.summaryImage) ? formProps.errors?.summaryImage : ''}
-                                            accept={{ 'image/*': ['.png', '.gif'], }}
-                                            extensionArray={['PNG', 'JPG']}
-                                        />
-                                    </Box>
-
-                                    {/* Title, details, author, categories */}
-                                    <Box sx={{
-                                        display: 'flex', flexDirection: 'column',
-                                        width: { xs: '100%', sm: '66%', md: '67%' }
-                                    }}>
-                                        {/* Title */}
-                                        <Box sx={{ mb: 1 }}>
-                                            {/* Label */}
-                                            <FieldLabel label={'Summary Title'} />
-
-                                            {/* Textfield */}
-                                            <UiTextField placeholder={'Blog post summary title'} name='summaryTitle' />
-                                        </Box>
-
-                                        {/* Details */}
-                                        <Box sx={{ mb: 1 }}>
-                                            {/* Label */}
-                                            <FieldLabel label={'Summary Details'} />
-
-                                            {/* Textfield */}
-                                            <UiTextArea placeholder={'Blog post summary details'} name='introduction' />
-                                        </Box>
-
-                                        {/* Author */}
-                                        <Box sx={{ mb: 1 }}>
-                                            {/* Label */}
-                                            <FieldLabel label={'Author'} />
-
-                                            {/* Textfield */}
-                                            <DropdownField
-                                                items={DropdownItemsBuilder({ items: users })}
-                                                handleChange={(value) => { handleDropdownSelect(value, 'author', formProps) }}
-                                                placeholder={'Select Author'} name='author'
-                                                selectedItem={formProps.values.author}
+                                <CollapseContainer title="Summary Section">
+                                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
+                                        {/* Image */}
+                                        <Box sx={{
+                                            width: { xs: '100%', sm: '30%', md: '30%' }, mr: { sm: 2, lg: 4 },
+                                            mb: { xs: 5, md: 2 }
+                                        }}>
+                                            <FieldLabel label={'Summary Image'} />
+                                            <ImageUpload handleChange={(fileUrl) => { handleFileUpload(fileUrl, formProps, 'summaryImage') }}
+                                                fileHeight={'1440'} fileWidth={'400'} maxSize={'50MB'} height={'15vw'} width='100%'
+                                                multiple={false} file={formProps?.values?.summaryImage}
+                                                errorMsg={(formProps.errors?.summaryImage) ? formProps.errors?.summaryImage : ''}
+                                                accept={{ 'image/*': ['.png', '.gif'], }}
+                                                extensionArray={['PNG', 'JPG']}
                                             />
                                         </Box>
 
-                                        {/* Categories */}
+                                        {/* Title, details, author, categories */}
+                                        <Box sx={{
+                                            display: 'flex', flexDirection: 'column',
+                                            width: { xs: '100%', sm: '66%', md: '67%' }
+                                        }}>
+                                            {/* Title */}
+                                            <Box sx={{ mb: 1 }}>
+                                                {/* Label */}
+                                                <FieldLabel label={'Summary Title'} />
 
-                                        <Box sx={{ mb: 1 }}>
-                                            {/* Label */}
-                                            <FieldLabel label={'Categories'} />
+                                                {/* Textfield */}
+                                                <UiTextField placeholder={'Blog post summary title'} name='summaryTitle' />
+                                            </Box>
 
-                                            {/* Textfield */}
-                                            <DropdownField
-                                                items={DropdownItemsBuilder({ items: categories })}
-                                                handleChange={(value) => { handleDropdownSelectArray(value, 'categories', formProps) }}
-                                                placeholder={'Select Categories'} name='categories' multiple
-                                                selectedItem={formProps.values.categories}
-                                            />
+                                            {/* Details */}
+                                            <Box sx={{ mb: 1 }}>
+                                                {/* Label */}
+                                                <FieldLabel label={'Summary Details'} />
+
+                                                {/* Textfield */}
+                                                <UiTextArea placeholder={'Blog post summary details'} name='introduction' />
+                                            </Box>
+
+                                            {/* Author */}
+                                            <Box sx={{ mb: 1 }}>
+                                                {/* Label */}
+                                                <FieldLabel label={'Author'} />
+
+                                                {/* Textfield */}
+                                                <DropdownField
+                                                    items={DropdownItemsBuilder({ items: users })}
+                                                    handleChange={(value) => { handleDropdownSelect(value, 'author', formProps) }}
+                                                    placeholder={'Select Author'} name='author'
+                                                    selectedItem={formProps.values.author}
+                                                />
+                                            </Box>
+
+                                            {/* Categories */}
+
+                                            <Box sx={{ mb: 1 }}>
+                                                {/* Label */}
+                                                <FieldLabel label={'Categories'} />
+
+                                                {/* Textfield */}
+                                                <DropdownField
+                                                    items={DropdownItemsBuilder({ items: categories })}
+                                                    handleChange={(value) => { handleDropdownSelectArray(value, 'categories', formProps) }}
+                                                    placeholder={'Select Categories'} name='categories' multiple
+                                                    selectedItem={formProps.values.categories}
+                                                />
+                                            </Box>
                                         </Box>
                                     </Box>
-                                </Box>
+                                </CollapseContainer>
 
                                 <UiSpacer direction="vertical" size="large" />
 
                                 {/* Full content section */}
-                                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                                    <FieldLabel label={'Blog Post Content'} />
-                                    <Editor
-                                        handleChange={(value?: string) => { handleContent({ value, formProps }) }}
-                                        imageFolder="posts" content={formProps.values.content || ''}
-                                        placeholder="Create your content here..."
-                                        openPreview={openPreview} error={formProps.errors.content || ''}
-                                    />
-                                </Box>
+                                <CollapseContainer title="Content Section">
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                        <FieldLabel label={'Blog Post Content'} />
+                                        <Editor
+                                            handleChange={(value?: string) => { handleContent({ value, formProps }) }}
+                                            imageFolder="posts" content={formProps.values.content || ''}
+                                            placeholder="Create your content here..."
+                                            openPreview={openPreview} error={formProps.errors.content || ''}
+                                        />
+                                    </Box>
+                                </CollapseContainer>
 
                                 <UiSpacer direction="vertical" size="large" />
 
                                 {/* Meta data section */}
-                                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                                    {/* Meta title */}
-                                    <Box sx={{ mb: 1 }}>
-                                        {/* Label */}
-                                        <FieldLabel label={'Meta Title'} />
+                                <CollapseContainer title="Meta data Section">
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                        {/* Meta title */}
+                                        <Box sx={{ mb: 1 }}>
+                                            {/* Label */}
+                                            <FieldLabel label={'Meta Title'} />
 
-                                        {/* Textfield */}
-                                        <UiTextField placeholder={'Blog post meta title for SEO...'} name='metaTitle' />
+                                            {/* Textfield */}
+                                            <UiTextField placeholder={'Blog post meta title for SEO...'} name='metaTitle' />
+                                        </Box>
+
+                                        {/* Meta description */}
+                                        <Box sx={{ mb: 1 }}>
+                                            {/* Label */}
+                                            <FieldLabel label={'Meta Description'} />
+
+                                            {/* Textfield */}
+                                            <UiTextArea placeholder={'Blog post meta description for SEO...'} name='metaDescription' />
+                                        </Box>
+
                                     </Box>
-
-                                    {/* Meta description */}
-                                    <Box sx={{ mb: 1 }}>
-                                        {/* Label */}
-                                        <FieldLabel label={'Meta Description'} />
-
-                                        {/* Textfield */}
-                                        <UiTextArea placeholder={'Blog post meta description for SEO...'} name='metaDescription' />
-                                    </Box>
-
-                                </Box>
+                                </CollapseContainer>
 
                                 <UiSpacer direction="vertical" size="large" />
 

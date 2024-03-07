@@ -23,7 +23,7 @@ type Props = {
 export default function Editor({ imageFolder, error, openPreview = () => { }, handleChange, content, placeholder }: Props) {
 
     return (<>
-        <Box sx={{ border: '1px solid black', width: '100%', height: 'max-content', minHeight: '60vh' }}>
+        <Box sx={{ border: '1px solid #33333320', width: '100%', height: 'max-content', /* minHeight: '60vh' */ }}>
             <Suspense fallback={<UiLoader />}>
                 <EditorComp placeholder={placeholder}
                     openPreview={openPreview} handleChange={handleChange} markdown={content || ''}

@@ -39,7 +39,7 @@ export default function ImageUpload({ handleChange, fileHeight, fileWidth, maxSi
     }
 
 
-    return <Box sx={{ width, height }}>
+    return <Box sx={{ width, height, minHeight: { xs: '200px', sm: 'inherit' } }}>
         <Dropzone onDrop={handleFiles} multiple={multiple} accept={accept}>
             {({ getRootProps, getInputProps, isDragActive }: {
                 isDragActive: boolean,
