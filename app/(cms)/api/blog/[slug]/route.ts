@@ -1,4 +1,5 @@
 import { Blog } from "@/app/models/Blog";
+import { Category } from "@/app/models/Categories";
 import { logServerError } from "@/utils/logServerError";
 
 export async function GET(req: Request, { params }: { params: { slug: string } }) {
@@ -8,7 +9,14 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
 
         console.log('slug', slug)
 
-        const post = await Blog.findOne({ slug })
+        let post = await Blog.findOne({ slug })
+
+        //Get the categories 
+        const categories = await Category.find({ _id: post?.categories })
+
+        post = post && { ...post, categories }
+
+        console.log('categories');
 
         return Response.json({ data: post })
     } catch (error) {

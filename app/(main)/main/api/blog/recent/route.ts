@@ -5,18 +5,9 @@ import { logServerError } from "@/utils/logServerError";
 
 export async function GET(req: Request) {
     try {
-        console.log('fetching all posts');
-        const { searchParams } = new URL(req.url);
+        console.log('fetching recent posts');
 
-        const offset = Number(searchParams.get('offset'));
-
-        const limit = Number(searchParams.get('limit'));
-
-        console.log('post params', { offset, limit });
-
-        let posts = await Blog.find({})
-            .skip(offset || 0)
-            .limit(limit || 0);
+        let posts = await Blog.find({}).sort({ '_id': 'desc' }).limit(5);
 
         //Get users
         const users = await User.find({ _id: posts?.map(i => i?.author) })
@@ -27,15 +18,14 @@ export async function GET(req: Request) {
         posts = posts.map(i => {
             return {
                 ...i?.toObject(), author: users.find(it => it?._id?.toString() === i?.author)?.fullName,
-                categories: categories.filter(it => i?.categories?.includes(it?._id))
+                categories: categories.filter(it => i?.categories?.includes(it?._id)), date: i?.createdAt,
+                image: i?.summaryImage, title: i?.summaryTitle
             }
         })
 
-        const total = (await Blog.find({})).length
+        console.log('final recent posts', posts)
 
-        console.log('final posts', posts, 'total', total)
-
-        return Response.json({ data: { posts, total } })
+        return Response.json({ data: { posts } })
     } catch (error) {
         return logServerError(error, req.url)
     }

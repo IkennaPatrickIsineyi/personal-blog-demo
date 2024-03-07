@@ -43,22 +43,29 @@ export default function EditBlog() {
 
 
         //Get all the users
-        setUsers([
-            { label: 'John Doe', value: '12', image: '' },
-            { label: 'Peter Rain', value: '122', image: '' },
-        ]);
+        /*   setUsers([
+              { label: 'John Doe', value: '12', image: '' },
+              { label: 'Peter Rain', value: '122', image: '' },
+          ]); */
 
         //Get all the categories
-        setCategories([
-            { label: 'Research', value: '32', image: '' },
-            { label: 'Design', value: '93', image: '' },
-        ])
+        /*  setCategories([
+             { label: 'Research', value: '32', image: '' },
+             { label: 'Design', value: '93', image: '' },
+         ]) */
     }, [])
 
     !initialised && request({ method: 'GET', url: `/api/blog/data?slug=${slug}` }).then(
         res => {
             if (res?.data) {
                 slug && setInitialValues(res.data?.post);
+                setUsers(res.data?.users?.map((i: any) => {
+                    return { label: i?.fullName, value: i?._id, image: i?.profilePicture }
+                }));
+                setCategories(res.data?.categories?.map((i: any) => {
+                    return { label: i?.value, value: i?._id, image: '' }
+                }));
+
                 /*  setUsers(res.data?.users?.map((i: any) => {
                      return { label: i?.fullName, value: i?._id, image: i?.profilePicture }
                  }));

@@ -57,7 +57,7 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
         }
     }
 
-    return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/post?id=${id}`} style={{ textDecoration: 'none' }}>
+    return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/post?slug=${slug}`} style={{ textDecoration: 'none' }}>
         <Box onMouseEnter={onMouseIn} onMouseLeave={onMouseOut}
             sx={{
                 display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', sm: width || '100%' },

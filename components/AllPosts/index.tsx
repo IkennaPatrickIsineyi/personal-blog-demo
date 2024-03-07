@@ -5,6 +5,7 @@ import UiSpacer from "../UiSpacer";
 import UiText from "../UiText";
 import UiPagination from "../UiPagination";
 import { allPostSample } from "@/utils/dataSamples";
+import { useApi } from "@/services/api";
 
 type PostType = {
     id: string | number,
@@ -22,19 +23,45 @@ type PostType = {
 type Props = {
 }
 
+let initialised = false;
+
 export default function AllPosts() {
     const [posts, setPosts] = useState<PostType>([]);
     const [totalPosts, setTotalPosts] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(5)
 
-    useEffect(() => {
-        //Get the posts and set the total posts
-        setPosts(allPostSample.slice(0, itemsPerPage));
-        setTotalPosts(allPostSample.length)
-    }, [])
+    const { request, processing, error, success } = useApi();
 
-    const onPaginate = ({ offset, endOffset }: { offset: number, endOffset: number }) => {
-        setPosts(allPostSample.slice(offset, endOffset))
+    const getPosts = async (offset: number, endOffset: number) => {
+        const res = await request({
+            method: 'GET',
+            url: `/main/api/blog?offset=${offset}&&limit=${itemsPerPage}`
+        })
+
+        if (res?.data) {
+            console.log('data of posts', res.data)
+            setPosts(res?.data?.posts?.map((i: any) => {
+                return {
+                    ...i, id: i?._id, image: i?.summaryImage,
+                    date: i?.timestamp, title: i?.summaryTitle,
+                }
+            }));
+            setTotalPosts(res?.data?.total);
+        }
+    }
+
+    !initialised && getPosts(0, itemsPerPage).then(res => res, err => console.log)
+    initialised = true
+
+    /*  useEffect(() => {
+         //Get the posts and set the total posts
+         setPosts(allPostSample.slice(0, itemsPerPage));
+         setTotalPosts(allPostSample.length)
+     }, []) */
+
+    const onPaginate = async ({ offset, endOffset }: { offset: number, endOffset: number }) => {
+        // setPosts(allPostSample.slice(offset, endOffset))
+        await getPosts(offset, endOffset)
     }
 
     return <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>

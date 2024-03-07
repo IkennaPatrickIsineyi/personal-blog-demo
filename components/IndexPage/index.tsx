@@ -8,15 +8,40 @@ import UiSpacer from '@/components/UiSpacer'
 import RecentPosts from '@/components/RecentPosts'
 import { recentPostSample } from '@/utils/dataSamples'
 import AllPosts from "../AllPosts";
+import { useState } from "react";
+import { useApi } from "@/services/api";
+import UiLoader from "../UiLoader";
+
+let initialised = false;
 
 export default function IndexPage() {
+    const [recent, setRecent] = useState<Array<any> | null>(null);
+
+    const { request, processing, error, success } = useApi();
+
+    const getRecent = async () => {
+        const res = await request({
+            method: 'GET',
+            url: `/main/api/blog/recent`
+        })
+
+        if (res?.data) {
+            console.log('data of posts', res.data)
+            setRecent(res?.data?.posts);
+        }
+    }
+
+    !initialised && getRecent().then(res => res, err => console.log)
+    initialised = true
+
+
     return <Box sx={indexPageStyle.container}>
         <UiTextBanner value="The blog" />
 
         <UiSpacer size="large" direction="vertical" />
 
         <UiContainer size="large">
-            <RecentPosts posts={recentPostSample} />
+            {recent ? <RecentPosts posts={recent} /> : <UiLoader />}
         </UiContainer>
 
         <UiContainer size="large">

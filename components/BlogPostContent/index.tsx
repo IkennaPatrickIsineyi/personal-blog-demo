@@ -9,10 +9,11 @@ import { fontSizes } from "@/utils/sizes"
 import BlogPostSummary from "../BlogPostSummary"
 import UiSpacer from "../UiSpacer"
 import { useEffect, useState } from "react"
-import { useSearchParams } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import UiLoader from '@/components/UiLoader'
 import Newsletter from "../Newsletter"
 import { postContentSample, recentPostSample } from "@/utils/dataSamples"
+import { useApi } from "@/services/api"
 
 type DataType = {
     content: string,
@@ -24,25 +25,38 @@ type DataType = {
     recentPosts: BlogPostType
 }
 
+let initialised = false;
+
 export default function BlogPostContent(/* { content, recentPosts, title, categories, date }: Props */) {
     const [data, setData] = useState<DataType>({ content: '', date: '', title: '', categories: [], recentPosts: [] });
 
-    //Get Id of the post
-    const postId = useSearchParams().get('id');
+    const { request, processing, error } = useApi()
 
-    useEffect(() => {
-        //Get the post content, title, date, categories,recent posts
-        setData({
-            content: postContentSample,
-            date: '2024/01/24',
-            title: 'Grid system for better Design User Interface',
-            categories: [
-                { value: 'design', color: '#6941C6', },
-                { value: 'research', color: '#3538CD' }
-            ],
-            recentPosts: recentPostSample
-        })
-    }, [])
+    //Get Id of the post
+    const slug = useSearchParams().get('slug');
+
+    !initialised && request({ method: 'GET', url: `/main/api/blog/${slug}` }).then(
+        (res: any) => {
+            setData(res.data)
+        },
+        err => console.log
+    )
+
+    initialised = true;
+
+    /*    useEffect(() => {
+           //Get the post content, title, date, categories,recent posts
+           setData({
+               content: postContentSample,
+               date: '2024/01/24',
+               title: 'Grid system for better Design User Interface',
+               categories: [
+                   { value: 'design', color: '#6941C6', },
+                   { value: 'research', color: '#3538CD' }
+               ],
+               recentPosts: recentPostSample
+           })
+       }, []) */
 
     return <UiContainer size="large">
         {data.content ? <Box sx={{
