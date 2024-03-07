@@ -1,16 +1,19 @@
 import { getSession } from "@/auth/useSession";
+import { logServerError } from "@/utils/logServerError";
 
 export async function POST(req: Request) {
-    const { email, token } = await getSession();
+    try {
+        const { email, token } = await getSession();
 
-    const payload = await req.json()
+        const payload = await req.json()
 
-    console.log('verify token data', { payload, email, token })
-
-    if (email === payload.email && token === payload.token) {
-        return Response.json({ data: true });
-    }
-    else {
-        return Response.json({ data: false });
+        if (email === payload.email && token === payload.token) {
+            return Response.json({ data: true });
+        }
+        else {
+            return Response.json({ data: false });
+        }
+    } catch (error) {
+        return logServerError(error, req.url)
     }
 }

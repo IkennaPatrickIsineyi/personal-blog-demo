@@ -19,41 +19,71 @@ import '@mdxeditor/editor/style.css'
 import * as Yup from 'yup';
 import DataPreview from "../DataPreview";
 import SubmitButton from "@/components/SubmitButton";
+import { useSearchParams } from "next/navigation";
+import UiLoader from "@/components/UiLoader";
 
+let initialised = false;
 export default function EditBlog() {
     const [users, setUsers] = useState<DropdownDataType>([]);
     const [categories, setCategories] = useState<DropdownDataType>([]);
     const [showPreview, setShowPreview] = useState(false)
 
+    const [initialValues, setInitialValues] = useState({
+        summaryImage: '', summaryTitle: '', author: '', introduction: '', categories: [], content: '',
+        metaTitle: '', metaDescription: ''
+    })
+
+    const { processing, request, error, success } = useApi();
+
+    const slug = useSearchParams().get('slug')
+
     useEffect(() => {
+        //Get the data for the blog (if this is an edit operation)
+
+
+        //Get all the users
         setUsers([
             { label: 'John Doe', value: '12', image: '' },
             { label: 'Peter Rain', value: '122', image: '' },
         ]);
 
+        //Get all the categories
         setCategories([
             { label: 'Research', value: '32', image: '' },
             { label: 'Design', value: '93', image: '' },
         ])
     }, [])
 
-    const { processing, request, error, success } = useApi();
+    !initialised && request({ method: 'GET', url: `/api/blog/data?slug=${slug}` }).then(
+        res => {
+            if (res?.data) {
+                slug && setInitialValues(res.data?.post);
+                /*  setUsers(res.data?.users?.map((i: any) => {
+                     return { label: i?.fullName, value: i?._id, image: i?.profilePicture }
+                 }));
+                 setCategories(res.data?.users?.map((i: any) => {
+                     return { label: i?.value, value: i?._id, image: '' }
+                 })); */
+            }
+        },
+        err => console.log
+    );
 
-    const [initialValues] = useState({
-        summaryImage: '', summaryTitle: '', author: '', introduction: '', categories: [], content: '',
-        metaTitle: '', metaDescription: '',
-    })
+    initialised = true;
+
+    console.log('initalvalues', initialValues)
+
 
     const handleFileUpload = (url: string, formProps: FormikProps<any>, id: string) => {
         formProps.setFieldValue(id, url)
     };
 
     const handleFormSubmit = async (values: {}) => {
-        const { data } = await request({ method: 'POST', url: '/api/blog/create', body: values });
+        const { data } = await request({ method: 'POST', url: `/api/blog/${slug ? 'edit' : 'create'}`, body: values });
 
         if (data) {
             console.log('blog has been created', data);
-            window.location.href = '/cms/blog'
+            window.location.replace('/cms/blog')
         }
     };
 
@@ -84,145 +114,147 @@ export default function EditBlog() {
 
 
     return <UiContainer size="medium">
-        <Box>
-            <UiSpacer direction="vertical" size="large" />
-            <Formik
-                initialValues={initialValues}
-                validationSchema={() => Yup.object(blogSchema)}
-                onSubmit={handleFormSubmit}>
-                {(formProps) => {
-                    console.log('form values', formProps.values)
-                    return (<Form style={{ width: '100%' }}>
-                        <Box sx={{
-                            display: 'flex', flexDirection: 'column',
-                            width: '100%', alignItems: 'center'
-                        }}>
-                            {/* Post summary section */}
-                            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
-                                {/* Image */}
-                                <Box sx={{
-                                    width: { xs: '100%', sm: '30%', md: '30%' }, mr: { sm: 2, lg: 4 },
-                                    mb: { xs: 5, md: 2 }
-                                }}>
-                                    <FieldLabel label={'Summary Image'} />
-                                    <ImageUpload handleChange={(fileUrl) => { handleFileUpload(fileUrl, formProps, 'summaryImage') }}
-                                        fileHeight={'1440'} fileWidth={'400'} maxSize={'50MB'} height={'15vw'} width='100%'
-                                        multiple={false} file={formProps?.values?.summaryImage}
-                                        errorMsg={(formProps.errors?.summaryImage) ? formProps.errors?.summaryImage : ''}
-                                        accept={{ 'image/*': ['.png', '.gif'], }}
-                                        extensionArray={['PNG', 'JPG']}
+        {(!slug ? true : Boolean(initialValues.summaryTitle))
+            ? <Box>
+                <UiSpacer direction="vertical" size="large" />
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={() => Yup.object(blogSchema)}
+                    onSubmit={handleFormSubmit}>
+                    {(formProps) => {
+                        console.log('form values', formProps.values)
+                        return (<Form style={{ width: '100%' }}>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'column',
+                                width: '100%', alignItems: 'center'
+                            }}>
+                                {/* Post summary section */}
+                                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
+                                    {/* Image */}
+                                    <Box sx={{
+                                        width: { xs: '100%', sm: '30%', md: '30%' }, mr: { sm: 2, lg: 4 },
+                                        mb: { xs: 5, md: 2 }
+                                    }}>
+                                        <FieldLabel label={'Summary Image'} />
+                                        <ImageUpload handleChange={(fileUrl) => { handleFileUpload(fileUrl, formProps, 'summaryImage') }}
+                                            fileHeight={'1440'} fileWidth={'400'} maxSize={'50MB'} height={'15vw'} width='100%'
+                                            multiple={false} file={formProps?.values?.summaryImage}
+                                            errorMsg={(formProps.errors?.summaryImage) ? formProps.errors?.summaryImage : ''}
+                                            accept={{ 'image/*': ['.png', '.gif'], }}
+                                            extensionArray={['PNG', 'JPG']}
+                                        />
+                                    </Box>
+
+                                    {/* Title, details, author, categories */}
+                                    <Box sx={{
+                                        display: 'flex', flexDirection: 'column',
+                                        width: { xs: '100%', sm: '66%', md: '67%' }
+                                    }}>
+                                        {/* Title */}
+                                        <Box sx={{ mb: 1 }}>
+                                            {/* Label */}
+                                            <FieldLabel label={'Summary Title'} />
+
+                                            {/* Textfield */}
+                                            <UiTextField placeholder={'Blog post summary title'} name='summaryTitle' />
+                                        </Box>
+
+                                        {/* Details */}
+                                        <Box sx={{ mb: 1 }}>
+                                            {/* Label */}
+                                            <FieldLabel label={'Summary Details'} />
+
+                                            {/* Textfield */}
+                                            <UiTextArea placeholder={'Blog post summary details'} name='introduction' />
+                                        </Box>
+
+                                        {/* Author */}
+                                        <Box sx={{ mb: 1 }}>
+                                            {/* Label */}
+                                            <FieldLabel label={'Author'} />
+
+                                            {/* Textfield */}
+                                            <DropdownField
+                                                items={DropdownItemsBuilder({ items: users })}
+                                                handleChange={(value) => { handleDropdownSelect(value, 'author', formProps) }}
+                                                placeholder={'Select Author'} name='author'
+                                                selectedItem={formProps.values.author}
+                                            />
+                                        </Box>
+
+                                        {/* Categories */}
+
+                                        <Box sx={{ mb: 1 }}>
+                                            {/* Label */}
+                                            <FieldLabel label={'Categories'} />
+
+                                            {/* Textfield */}
+                                            <DropdownField
+                                                items={DropdownItemsBuilder({ items: categories })}
+                                                handleChange={(value) => { handleDropdownSelectArray(value, 'categories', formProps) }}
+                                                placeholder={'Select Categories'} name='categories' multiple
+                                                selectedItem={formProps.values.categories}
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Box>
+
+                                <UiSpacer direction="vertical" size="large" />
+
+                                {/* Full content section */}
+                                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                    <FieldLabel label={'Blog Post Content'} />
+                                    <Editor
+                                        handleChange={(value?: string) => { handleContent({ value, formProps }) }}
+                                        imageFolder="posts" content={formProps.values.content || ''}
+                                        placeholder="Create your content here..."
+                                        openPreview={openPreview} error={formProps.errors.content || ''}
                                     />
                                 </Box>
 
-                                {/* Title, details, author, categories */}
-                                <Box sx={{
-                                    display: 'flex', flexDirection: 'column',
-                                    width: { xs: '100%', sm: '66%', md: '67%' }
-                                }}>
-                                    {/* Title */}
+                                <UiSpacer direction="vertical" size="large" />
+
+                                {/* Meta data section */}
+                                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                    {/* Meta title */}
                                     <Box sx={{ mb: 1 }}>
                                         {/* Label */}
-                                        <FieldLabel label={'Summary Title'} />
+                                        <FieldLabel label={'Meta Title'} />
 
                                         {/* Textfield */}
-                                        <UiTextField placeholder={'Blog post summary title'} name='summaryTitle' />
+                                        <UiTextField placeholder={'Blog post meta title for SEO...'} name='metaTitle' />
                                     </Box>
 
-                                    {/* Details */}
+                                    {/* Meta description */}
                                     <Box sx={{ mb: 1 }}>
                                         {/* Label */}
-                                        <FieldLabel label={'Summary Details'} />
+                                        <FieldLabel label={'Meta Description'} />
 
                                         {/* Textfield */}
-                                        <UiTextArea placeholder={'Blog post summary details'} name='introduction' />
+                                        <UiTextArea placeholder={'Blog post meta description for SEO...'} name='metaDescription' />
                                     </Box>
 
-                                    {/* Author */}
-                                    <Box sx={{ mb: 1 }}>
-                                        {/* Label */}
-                                        <FieldLabel label={'Author'} />
-
-                                        {/* Textfield */}
-                                        <DropdownField
-                                            items={DropdownItemsBuilder({ items: users })}
-                                            handleChange={(value) => { handleDropdownSelect(value, 'author', formProps) }}
-                                            placeholder={'Select Author'} name='author'
-                                            selectedItem={formProps.values.author}
-                                        />
-                                    </Box>
-
-                                    {/* Categories */}
-
-                                    <Box sx={{ mb: 1 }}>
-                                        {/* Label */}
-                                        <FieldLabel label={'Categories'} />
-
-                                        {/* Textfield */}
-                                        <DropdownField
-                                            items={DropdownItemsBuilder({ items: categories })}
-                                            handleChange={(value) => { handleDropdownSelectArray(value, 'categories', formProps) }}
-                                            placeholder={'Select Categories'} name='categories' multiple
-                                            selectedItem={formProps.values.categories}
-                                        />
-                                    </Box>
                                 </Box>
-                            </Box>
 
-                            <UiSpacer direction="vertical" size="large" />
+                                <UiSpacer direction="vertical" size="large" />
 
-                            {/* Full content section */}
-                            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                                <FieldLabel label={'Blog Post Content'} />
-                                <Editor
-                                    handleChange={(value?: string) => { handleContent({ value, formProps }) }}
-                                    imageFolder="posts" content={formProps.values.content || ''}
-                                    placeholder="Create your content here..."
-                                    openPreview={openPreview} error={formProps.errors.content || ''}
+                                {/* Submit button */}
+                                <SubmitButton style={{ color: 'white', width: { xs: '90%', sm: '60%' } }}
+                                    disabled={!formProps.isValid || processing} fullWidth={true}
+                                    marginTop={0} label={'Create'} formProps={formProps} processing={processing}
                                 />
+
+                                <UiSpacer direction="vertical" size="large" />
                             </Box>
 
-                            <UiSpacer direction="vertical" size="large" />
+                            {showPreview && <DataPreview content={formProps.values.content} open={showPreview}
+                                handleClose={closePreview}
+                            />}
+                        </Form>)
+                    }}
 
-                            {/* Meta data section */}
-                            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                                {/* Meta title */}
-                                <Box sx={{ mb: 1 }}>
-                                    {/* Label */}
-                                    <FieldLabel label={'Meta Title'} />
-
-                                    {/* Textfield */}
-                                    <UiTextField placeholder={'Blog post meta title for SEO...'} name='metaTitle' />
-                                </Box>
-
-                                {/* Meta description */}
-                                <Box sx={{ mb: 1 }}>
-                                    {/* Label */}
-                                    <FieldLabel label={'Meta Description'} />
-
-                                    {/* Textfield */}
-                                    <UiTextArea placeholder={'Blog post meta description for SEO...'} name='metaDescription' />
-                                </Box>
-
-                            </Box>
-
-                            <UiSpacer direction="vertical" size="large" />
-
-                            {/* Submit button */}
-                            <SubmitButton style={{ color: 'white', width: { xs: '90%', sm: '60%' } }}
-                                disabled={!formProps.isValid || processing} fullWidth={true}
-                                marginTop={0} label={'Create'} formProps={formProps} processing={processing}
-                            />
-
-                            <UiSpacer direction="vertical" size="large" />
-                        </Box>
-
-                        {showPreview && <DataPreview content={formProps.values.content} open={showPreview}
-                            handleClose={closePreview}
-                        />}
-                    </Form>)
-                }}
-
-            </Formik>
-        </Box>
+                </Formik>
+            </Box>
+            : <UiLoader />}
     </UiContainer>
 }

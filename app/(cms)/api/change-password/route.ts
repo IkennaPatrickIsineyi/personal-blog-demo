@@ -1,6 +1,7 @@
 import { User } from "@/app/models/User";
 import { deleteSession, getSession } from "@/auth/useSession";
 import { hashPassword } from "@/utils/hashPassword";
+import { logServerError } from "@/utils/logServerError";
 
 export async function POST(req: Request) {
     try {
@@ -8,15 +9,10 @@ export async function POST(req: Request) {
 
         const payload = await req.json()
 
-        console.log('change password token data', { payload, email, token })
-
         if (email === payload.email && token === payload.token) {
-            console.log('changing password');
             const newPassword = payload.password1;
             //hash the password
             const hash = await hashPassword(newPassword);
-
-            console.log('new password', { newPassword, hash });
 
             //update the account password
             await User.updateOne({ email }, { $set: { password: hash } });
@@ -30,7 +26,6 @@ export async function POST(req: Request) {
             return Response.json({ data: false });
         }
     } catch (error) {
-        console.log('something went wrong', error);
-        return Response.error()
+        return logServerError(error, req.url)
     }
 }

@@ -6,6 +6,8 @@ import UiText from '../UiText'
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { Delete, Edit, Visibility } from "@mui/icons-material";
+import { useApi } from "@/services/api";
+import UiLoader from "../UiLoader";
 
 type Props = {
     id: string | number,
@@ -14,6 +16,7 @@ type Props = {
     author: string,
     title: string,
     introduction: string,
+    slug?: string,
     categories: {
         value: string,
         color: string
@@ -26,10 +29,12 @@ type Props = {
 }
 
 export default function BlogPostSummary({ id, image, headliner, date, author, title, introduction, categories,
-    flex, fullwidth, width, editable = false }: Props) {
+    flex, fullwidth, width, editable = false, slug }: Props) {
     const router = useRouter();
 
     const [showActionRow, setShowActionRow] = useState<boolean>(false)
+
+    const { request, error, processing } = useApi()
 
     const handleClick = ({ id }: { id: number | string }) => {
         router.push(`/post?id=${id}`)
@@ -41,6 +46,20 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
     }
     const onMouseIn = () => {
         setShowActionRow(true)
+    }
+
+    const handleEditClick = (e: React.MouseEvent) => {
+        e.stopPropagation()
+    }
+
+    const handleDelete = async (e: React.MouseEvent) => {
+        e.stopPropagation()
+        const { data } = await request({ method: 'DELETE', url: `/api/blog/delete?slug=${slug}` });
+
+        if (data) {
+            console.log('post deleted');
+            window.location.reload();
+        }
     }
 
     return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/post?id=${id}`} style={{ textDecoration: 'none' }}>
@@ -57,18 +76,13 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
                 maxWidth: '100%', position: 'absolute', top: 0, left: 0, pl: 2, bgcolor: '#FFFFFF90'
             }}>
                 {/* Edit button */}
-                <IconButton sx={{ mr: 2, color: 'primary.main' }}>
+                <IconButton onClick={handleEditClick} href={`/cms/blog/edit?slug=${slug}`} sx={{ mr: 2, color: 'primary.main' }} >
                     <Edit />
                 </IconButton>
 
                 {/* Delete button */}
-                <IconButton sx={{ mr: 1, color: 'primary.main' }}>
-                    <Delete />
-                </IconButton>
-
-                {/* View button */}
-                <IconButton sx={{ color: 'primary.main' }}>
-                    <Visibility />
+                <IconButton sx={{ mr: 1, color: 'primary.main' }} onClick={handleDelete}>
+                    {processing ? <UiLoader /> : <Delete />}
                 </IconButton>
             </Box>}
 
