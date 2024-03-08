@@ -14,7 +14,14 @@ export async function POST(req: Request) {
         const { summaryImage, summaryTitle, introduction, author,
             categories, content, metaTitle, metaDescription }: PostType = await req.json();
 
+        console.log('creating blog post', {
+            summaryImage, summaryTitle, introduction, author,
+            categories, content, metaTitle, metaDescription
+        })
+
         const slug = summaryTitle.replace(' ', '-') + randomUUID().substring(0, 5);
+
+        console.log('slug', slug);
 
         await Blog.create({
             summaryImage, summaryTitle, introduction, author,
