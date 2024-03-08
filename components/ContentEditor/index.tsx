@@ -16,6 +16,7 @@ interface EditorProps {
     editorRef?: React.MutableRefObject<MDXEditorMethods | null>,
     handleChange: (value?: string) => void,
     placeholder: string,
+    disablePreview?: boolean,
     openPreview?: () => void,
 }
 
@@ -23,7 +24,8 @@ interface EditorProps {
  * Extend this Component further with the necessary plugins or props you need.
  * proxying the ref is necessary. Next.js dynamically imported components don't support refs. 
 */
-const Editor: FC<EditorProps> = ({ markdown, handleChange, openPreview = () => { }, placeholder, editorRef }) => {
+const Editor: FC<EditorProps> = ({ markdown, disablePreview = false,
+    handleChange, openPreview = () => { }, placeholder, editorRef }) => {
     const { request } = useFileUpload();
 
     const imageUploadHandler = async (file: File) => {
@@ -61,10 +63,10 @@ const Editor: FC<EditorProps> = ({ markdown, handleChange, openPreview = () => {
                     <Separator />
                     <ListsToggle />
                     <Separator />
-                    <Button style={{ marginLeft: 'auto', padding: '4px 16px', background: '#1A1A1A', color: 'white', cursor: 'pointer' }}
+                    {!disablePreview && <Button style={{ marginLeft: 'auto', padding: '4px 16px', background: '#1A1A1A', color: 'white', cursor: 'pointer' }}
                         onClick={handlePreview}>
                         Preview
-                    </Button>
+                    </Button>}
                 </>
             )
         })]} />

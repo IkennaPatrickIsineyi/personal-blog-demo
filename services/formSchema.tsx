@@ -34,3 +34,18 @@ export const blogSchema = {
     metaTitle: Yup.string().required('Meta Title is required'),
     metaDescription: Yup.string().required('Meta description is required'),
 }
+
+/*  image: '',         experience: '',        education: '',        skills: '',
+        about: '', metaTitle:'',metaDescription:'' */
+export const aboutSchema = {
+    /* Summary */
+    image: Yup.string().required('Image is required'),
+    experience: Yup.string().required('Work experience is required'),
+    education: Yup.string().required('Education history is required'),
+    skills: Yup.string().required('Skills are required'),
+    about: Yup.string().required('Please write something about yourself'),
+
+    /* Meta data */
+    metaTitle: Yup.string().required('Meta Title is required'),
+    metaDescription: Yup.string().required('Meta description is required'),
+}

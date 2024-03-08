@@ -14,18 +14,20 @@ Hello **world**!
 type Props = {
     imageFolder: string,
     placeholder: string,
+    disablePreview?: boolean,
     content?: string,
     handleChange: (value?: string) => void,
     openPreview?: () => void,
     error?: string,
 }
 
-export default function Editor({ imageFolder, error, openPreview = () => { }, handleChange, content, placeholder }: Props) {
+export default function Editor({ imageFolder, disablePreview = false,
+    error, openPreview = () => { }, handleChange, content, placeholder }: Props) {
 
     return (<>
         <Box sx={{ border: '1px solid #33333320', width: '100%', height: 'max-content', /* minHeight: '60vh' */ }}>
             <Suspense fallback={<UiLoader />}>
-                <EditorComp placeholder={placeholder}
+                <EditorComp placeholder={placeholder} disablePreview={disablePreview}
                     openPreview={openPreview} handleChange={handleChange} markdown={content || ''}
                 />
             </Suspense>

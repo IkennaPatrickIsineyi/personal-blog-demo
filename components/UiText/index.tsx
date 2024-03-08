@@ -11,20 +11,34 @@ type Props = {
     fontFamily?: typeof fontFamilies,
     value: string | number,
     maxLines?: number,
+    isHtml?: boolean,
     sx?: SxProps
 }
 
-export default function UiText({ size, textAlign, sx, color, maxLines, fontWeight, fontFamily, value }: Props) {
-    return <Typography sx={{
-        fontSize: fontSizes[size], textAlign, fontFamily: fontFamily || 'inter', color, fontWeight, ...sx,
-        ...(maxLines ? {
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: maxLines,
-            WebkitBoxOrient: 'vertical',
-        } : {})
-    }}>
-        {value}
-    </Typography>
+export default function UiText({ size, textAlign, isHtml = false, sx, color, maxLines, fontWeight, fontFamily, value }: Props) {
+    return isHtml
+        ? <Typography dangerouslySetInnerHTML={{ __html: value }} sx={{
+            fontSize: fontSizes[size], textAlign, fontFamily: fontFamily || 'inter', color, fontWeight, ...sx,
+            ...(maxLines ? {
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: maxLines,
+                WebkitBoxOrient: 'vertical',
+            } : {})
+        }}>
+
+        </Typography>
+        : <Typography sx={{
+            fontSize: fontSizes[size], textAlign, fontFamily: fontFamily || 'inter', color, fontWeight, ...sx,
+            ...(maxLines ? {
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: maxLines,
+                WebkitBoxOrient: 'vertical',
+            } : {})
+        }}>
+            {value}
+        </Typography>
 }
