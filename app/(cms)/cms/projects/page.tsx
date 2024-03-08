@@ -1,9 +1,15 @@
-
+import Project from "@/components/CMS/Projects/DataView";
 import DataLayout from "@/components/CMS/CMSLayout/DataLayout";
-import Projects from "@/components/CMS/Projects/DataView";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Project | Wickrose CMS",
+    description: "This is Wickrose CMS project section",
+};
+
 
 export default function Page() {
-    return <DataLayout pageName="Projects" id="projects">
-        <Projects />
+    return <DataLayout pageName="Project" id="project">
+        <Project />
     </DataLayout>
 }

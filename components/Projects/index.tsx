@@ -1,16 +1,40 @@
+'use client'
+
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { projectPageStyle } from './style'
 import UiTextBanner from '../UiTextBanner'
-import UiText from '../UiText'
 import RecentProjects from "../RecentProjects";
 import UiContainer from "../UiContainer";
 import AllProjects from "../AllProjects";
-import { allProjectsSample } from "../../utils/dataSamples";
 import UiSpacer from "../UiSpacer";
+import { useApi } from "@/services/api";
+import UiLoader from "../UiLoader";
 
+
+let initialised = false;
 
 export default function () {
+    const [recent, setRecent] = useState<Array<any> | null>(null);
+
+    const { request, processing, error, success } = useApi();
+
+    const getRecent = async () => {
+        const res = await request({
+            method: 'GET',
+            url: `/main/api/project/recent`
+        })
+
+        if (res?.data) {
+            console.log('data of projects', res.data)
+            setRecent(res?.data?.projects);
+        }
+    }
+
+    !initialised && getRecent().then(res => res, err => console.log)
+    initialised = true
+
+
     return <Box sx={projectPageStyle.container}>
         {/* Banner */}
         <UiTextBanner value="Projects" />
@@ -19,7 +43,7 @@ export default function () {
 
         {/* All Projects */}
         <UiContainer size="large">
-            <RecentProjects projects={allProjectsSample.slice(0, 5)} />
+            {recent ? <RecentProjects projects={recent} /> : <UiLoader />}
         </UiContainer>
 
         <UiContainer size="large">

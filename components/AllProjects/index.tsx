@@ -7,6 +7,7 @@ import UiSpacer from "../UiSpacer";
 import UiText from "../UiText";
 import UiPagination from "../UiPagination";
 import { allProjectsSample } from "../../utils/dataSamples";
+import { useApi } from "@/services/api";
 
 type PostType = {
     id: string | number,
@@ -22,19 +23,45 @@ type PostType = {
 type Props = {
 }
 
+let initialised = false;
+
 export default function AllProjects() {
     const [projects, setProjects] = useState<PostType>([]);
     const [totalPosts, setTotalPosts] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(5)
 
-    useEffect(() => {
-        //Get the projects and set the total projects
-        setProjects(allProjectsSample.slice(0, itemsPerPage));
-        setTotalPosts(allProjectsSample.length)
-    }, [])
+    const { request, processing, error, success } = useApi();
 
-    const onPaginate = ({ offset, endOffset }: { offset: number, endOffset: number }) => {
-        setProjects(allProjectsSample.slice(offset, endOffset))
+    const getProjects = async (offset: number, endOffset: number) => {
+        const res = await request({
+            method: 'GET',
+            url: `/main/api/project?offset=${offset}&&limit=${itemsPerPage}`
+        })
+
+        if (res?.data) {
+            console.log('data of projects', res.data)
+            setProjects(res?.data?.projects?.map((i: any) => {
+                return {
+                    ...i, id: i?._id, image: i?.summaryImage,
+                    date: i?.timestamp, title: i?.summaryTitle,
+                }
+            }));
+            setTotalPosts(res?.data?.total);
+        }
+    }
+
+    !initialised && getProjects(0, itemsPerPage).then(res => res, err => console.log)
+    initialised = true
+
+    /*   useEffect(() => {
+          //Get the projects and set the total projects
+          setProjects(allProjectsSample.slice(0, itemsPerPage));
+          setTotalPosts(allProjectsSample.length)
+      }, []) */
+
+    const onPaginate = async ({ offset, endOffset }: { offset: number, endOffset: number }) => {
+        await getProjects(offset, endOffset)
+        // setProjects(allProjectsSample.slice(offset, endOffset))
     }
 
     return <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>

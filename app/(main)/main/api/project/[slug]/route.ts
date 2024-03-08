@@ -1,5 +1,5 @@
-import { Blog } from "@/app/models/Blog";
 import { Category } from "@/app/models/Categories";
+import { Project } from "@/app/models/Project";
 import { User } from "@/app/models/User";
 import { logServerError } from "@/utils/logServerError";
 
@@ -10,31 +10,31 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
 
         console.log('slug', slug)
 
-        let post = await Blog.findOne({ slug })
+        let project = await Project.findOne({ slug })
 
-        let recentPosts = (await Blog.find({ slug: { $ne: slug } }).sort({ _id: 'desc' }).limit(5))
+        let recentProjects = (await Project.find({ slug: { $ne: slug } }).sort({ _id: 'desc' }).limit(5))
 
-        console.log('retrieved recent posts', recentPosts);
+        console.log('retrieved recent projects', recentProjects);
 
         //Get the categories 
         const categories = await Category.find({})
 
         console.log('categories', categories);
 
-        const users = await User.find({ _id: [post?.author, ...recentPosts.map(i => i?.author)] })
+        const users = await User.find({ _id: [project?.author, ...recentProjects.map(i => i?.author)] })
 
         console.log('users', users)
 
-        post = post && {
-            ...post?.toObject(),
-            title: post?.summaryTitle,
-            date: post?.createdAt,
-            image: post?.summaryImage,
-            author: users?.find((i: any) => i?._id?.toString() === post?.author)?.fullName,
-            categories: categories.filter(i => post.categories.includes(i?._id?.toString()))
+        project = project && {
+            ...project?.toObject(),
+            title: project?.summaryTitle,
+            date: project?.createdAt,
+            image: project?.summaryImage,
+            author: users?.find((i: any) => i?._id?.toString() === project?.author)?.fullName,
+            categories: categories.filter(i => project.categories.includes(i?._id?.toString()))
         }
 
-        recentPosts = recentPosts.map(i => {
+        recentProjects = recentProjects.map(i => {
             return {
                 ...i?.toObject(),
                 title: i?.summaryTitle,
@@ -45,9 +45,9 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
             }
         });
 
-        console.log('final result for slug', { slug, post, recentPosts });
+        console.log('final result for slug', { slug, project, recentProjects });
 
-        return Response.json({ data: { ...(post || {}), recentPosts } })
+        return Response.json({ data: { ...(project || {}), recentProjects } })
     } catch (error) {
         return logServerError(error, req.url)
     }

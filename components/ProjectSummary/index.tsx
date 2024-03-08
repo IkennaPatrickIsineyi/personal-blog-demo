@@ -1,44 +1,86 @@
 'use client'
 
-import { Box, Typography } from "@mui/material";
-import React from "react";
+import { Box, IconButton, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { fontSizes } from "../../utils/sizes";
 import UiSpacer from "../UiSpacer";
 import UiText from '../UiText'
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import { Delete, Edit } from "@mui/icons-material";
+import { useApi } from "@/services/api";
+import UiLoader from "../UiLoader";
 
 type Props = {
     id: string | number,
     image?: string,
     title: string,
     introduction: string,
+    slug?: string,
     categories: {
         value: string,
         color: string
     }[],
     flex: boolean,
     fullwidth: boolean,
+    editable?: boolean,
     headliner: boolean,
     width?: string
 }
 
 export default function ProjectSummary({ id, image, headliner, title, introduction, categories,
-    flex, fullwidth, width }: Props) {
+    flex, fullwidth, width, slug, editable = false }: Props) {
     const router = useRouter();
 
-    const handleClick = ({ id }: { id: number | string }) => {
-        router.push(`/post?id=${id}`)
+    const [showActionRow, setShowActionRow] = useState<boolean>(false)
+
+    const { request, error, processing } = useApi()
+
+    const onMouseOut = () => {
+        setShowActionRow(false)
+    }
+    const onMouseIn = () => {
+        setShowActionRow(true)
     }
 
-    return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/project?id=${id}`} style={{ textDecoration: 'none' }}>
+    const handleEditClick = (e: React.MouseEvent) => {
+        e.stopPropagation()
+    }
+
+    const handleDelete = async (e: React.MouseEvent) => {
+        e.stopPropagation()
+        const { data } = await request({ method: 'DELETE', url: `/api/project/delete?slug=${slug}` });
+
+        if (data) {
+            console.log('post deleted');
+            window.location.reload();
+        }
+    }
+
+    return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/projects?slug=${slug}`} style={{ textDecoration: 'none' }}>
         <Box sx={{
             display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', sm: width || '100%' },
             mb: 3, overflow: 'hidden', cursor: 'pointer', alignItems: 'flex-start', ":hover": {
                 backgroundColor: '#33333330',
                 boxShadow: 'rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px'
-            }, borderRadius: '16px'
-        }}/*  onClick={() => { handleClick({ id }) }} */>
+            }, borderRadius: '16px', position: 'relative'
+        }} onMouseEnter={onMouseIn} onMouseLeave={onMouseOut}>
+            {editable && <Box sx={{
+                display: showActionRow ? 'flex' : 'none', alignItems: 'center',
+                maxWidth: '100%', position: 'absolute', top: 0, left: 0, pl: 2, bgcolor: '#FFFFFF90'
+            }}>
+                {/* Edit button */}
+                <IconButton onClick={handleEditClick} href={`/cms/projects/edit?slug=${slug}`} sx={{ mr: 2, color: 'primary.main' }} >
+                    <Edit />
+                </IconButton>
+
+                {/* Delete button */}
+                <IconButton sx={{ mr: 1, color: 'primary.main' }} onClick={handleDelete}>
+                    {processing ? <UiLoader /> : <Delete />}
+                </IconButton>
+            </Box>}
+
+
             {/* image */}
             <Box sx={{
                 width: { xs: '100%', md: '100%' }, height: { xs: 'auto' },
