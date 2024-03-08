@@ -1,4 +1,5 @@
 import { Project } from "@/app/models/Project";
+import { connectDb } from "@/utils/connectDb";
 import { logServerError } from "@/utils/logServerError";
 import { randomUUID } from "crypto";
 
@@ -15,6 +16,8 @@ export async function POST(req: Request) {
             categories, content, metaTitle, metaDescription }: ProjectType = await req.json();
 
         const slug = summaryTitle.replaceAll(' ', '-') + randomUUID().substring(0, 5);
+
+        await connectDb()
 
         await Project.create({
             summaryImage, summaryTitle, introduction, author,

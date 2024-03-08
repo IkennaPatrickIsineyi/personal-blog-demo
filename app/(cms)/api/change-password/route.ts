@@ -1,5 +1,6 @@
 import { User } from "@/app/models/User";
 import { deleteSession, getSession } from "@/auth/useSession";
+import { connectDb } from "@/utils/connectDb";
 import { hashPassword } from "@/utils/hashPassword";
 import { logServerError } from "@/utils/logServerError";
 
@@ -13,6 +14,8 @@ export async function POST(req: Request) {
             const newPassword = payload.password1;
             //hash the password
             const hash = await hashPassword(newPassword);
+
+            await connectDb()
 
             //update the account password
             await User.updateOne({ email }, { $set: { password: hash } });

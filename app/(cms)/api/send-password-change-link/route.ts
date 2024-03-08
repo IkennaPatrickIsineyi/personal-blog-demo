@@ -4,11 +4,14 @@ import { randomUUID } from "crypto";
 import sendEmail from "../../../../services/sendEmail";
 import { passwordResetTemplate } from "../../../../utils/emailTemplate";
 import { logServerError } from "@/utils/logServerError";
+import { connectDb } from "@/utils/connectDb";
 
 export async function POST(req: Request) {
     try {
         const payload = await req.json()
         const userEmail = payload?.email
+
+        await connectDb()
 
         //Find the user that has the email
         const userExists = await User.findOne({ email: userEmail });

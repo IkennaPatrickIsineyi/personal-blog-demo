@@ -1,6 +1,7 @@
 import { Category } from "@/app/models/Categories";
 import { Project } from "@/app/models/Project";
 import { User } from "@/app/models/User";
+import { connectDb } from "@/utils/connectDb";
 import { logServerError } from "@/utils/logServerError";
 
 export async function GET(req: Request) {
@@ -10,6 +11,8 @@ export async function GET(req: Request) {
         const slug = searchParams.get('slug');
 
         console.log('slug for data', slug);
+
+        await connectDb()
 
         //Get blog project data (if slug was given)
         const project = slug && await Project.findOne({ slug });

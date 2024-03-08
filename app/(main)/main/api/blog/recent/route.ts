@@ -1,11 +1,14 @@
 import { Blog } from "@/app/models/Blog";
 import { Category } from "@/app/models/Categories";
 import { User } from "@/app/models/User";
+import { connectDb } from "@/utils/connectDb";
 import { logServerError } from "@/utils/logServerError";
 
 export async function GET(req: Request) {
     try {
         console.log('fetching recent posts');
+
+        await connectDb()
 
         let posts = await Blog.find({}).sort({ '_id': 'desc' }).limit(5);
 

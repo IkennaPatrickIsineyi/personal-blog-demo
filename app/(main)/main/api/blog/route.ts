@@ -1,6 +1,7 @@
 import { Blog } from "@/app/models/Blog";
 import { Category } from "@/app/models/Categories";
 import { User } from "@/app/models/User";
+import { connectDb } from "@/utils/connectDb";
 import { logServerError } from "@/utils/logServerError";
 
 export async function GET(req: Request) {
@@ -13,6 +14,8 @@ export async function GET(req: Request) {
         const limit = Number(searchParams.get('limit'));
 
         console.log('post params', { offset, limit });
+
+        await connectDb()
 
         let posts = await Blog.find({})
             .skip(offset || 0)

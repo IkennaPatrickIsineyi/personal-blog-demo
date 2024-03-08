@@ -1,4 +1,5 @@
 import { About } from "@/app/models/About";
+import { connectDb } from "@/utils/connectDb";
 import { logServerError } from "@/utils/logServerError";
 
 type AboutType = {
@@ -12,6 +13,8 @@ export async function POST(req: Request) {
     try {
         const { image, experience, about, education, skills, metaTitle,
             metaDescription, _id }: AboutType = await req.json();
+
+        await connectDb()
 
         await About.updateOne({ _id }, {
             $set: {

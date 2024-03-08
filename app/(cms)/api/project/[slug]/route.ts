@@ -2,6 +2,7 @@ import { Blog } from "@/app/models/Blog";
 import { Category } from "@/app/models/Categories";
 import { logServerError } from "@/utils/logServerError";
 import { Project } from "@/app/models/Project";
+import { connectDb } from "@/utils/connectDb";
 
 export async function GET(req: Request, { params }: { params: { slug: string } }) {
     try {
@@ -9,6 +10,8 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
         const slug = params.slug
 
         console.log('slug', slug)
+
+        await connectDb()
 
         let project = await Project.findOne({ slug })
 
