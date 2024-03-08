@@ -15,6 +15,7 @@ import React from "react"
 import { allProjectsSample } from "../../utils/dataSamples"
 import ProjectSummary from "../ProjectSummary"
 import { useApi } from "@/services/api"
+import { markdownToHtml } from "@/utils/markdownToHtml"
 
 type DataType = {
     content: string,
@@ -38,7 +39,8 @@ export default function ProjectDetails(/* { content, recentPosts, title, categor
 
     !initialised && request({ method: 'GET', url: `/main/api/project/${slug}` }).then(
         (res: any) => {
-            setData(res.data)
+            markdownToHtml(res.data?.content || '').then(resp => setData({ ...(res?.data || {}), content: resp }),
+                err => console.log)
         },
         err => console.log
     )
