@@ -14,6 +14,7 @@ import { projectContentSample } from "../../utils/dataSamples"
 import React from "react"
 import { allProjectsSample } from "../../utils/dataSamples"
 import ProjectSummary from "../ProjectSummary"
+import { useApi } from "@/services/api"
 
 type DataType = {
     content: string,
@@ -24,24 +25,38 @@ type DataType = {
     recentProjects: ProjectType
 }
 
+let initialised = false;
+
 export default function ProjectDetails(/* { content, recentPosts, title, categories, date }: Props */) {
     const [data, setData] = useState<DataType>({ content: '', title: '', categories: [], recentProjects: [] });
 
-    //Get Id of the project
-    const projectId = useSearchParams().get('id');
 
-    useEffect(() => {
-        //Get the project content, title, date, categories,recent posts
-        setData({
-            content: projectContentSample,
-            title: 'Grid system for better Design User Interface',
-            categories: [
-                { value: 'design', color: '#6941C6', },
-                { value: 'research', color: '#3538CD' }
-            ],
-            recentProjects: allProjectsSample.slice(0, 5)
-        })
-    }, [])
+    const { request, processing, error } = useApi()
+
+    //Get Id of the post
+    const slug = useSearchParams().get('slug');
+
+    !initialised && request({ method: 'GET', url: `/main/api/project/${slug}` }).then(
+        (res: any) => {
+            setData(res.data)
+        },
+        err => console.log
+    )
+
+    initialised = true;
+
+    /*   useEffect(() => {
+          //Get the project content, title, date, categories,recent posts
+          setData({
+              content: projectContentSample,
+              title: 'Grid system for better Design User Interface',
+              categories: [
+                  { value: 'design', color: '#6941C6', },
+                  { value: 'research', color: '#3538CD' }
+              ],
+              recentProjects: allProjectsSample.slice(0, 5)
+          })
+      }, []) */
 
     return <UiContainer size="large">
         {data.content ? <Box sx={{
