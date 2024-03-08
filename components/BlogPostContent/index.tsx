@@ -14,6 +14,7 @@ import UiLoader from '@/components/UiLoader'
 import Newsletter from "../Newsletter"
 import { postContentSample, recentPostSample } from "@/utils/dataSamples"
 import { useApi } from "@/services/api"
+import { markdownToHtml } from "@/utils/markdownToHtml"
 
 type DataType = {
     content: string,
@@ -37,7 +38,8 @@ export default function BlogPostContent(/* { content, recentPosts, title, catego
 
     !initialised && request({ method: 'GET', url: `/main/api/blog/${slug}` }).then(
         (res: any) => {
-            setData(res.data)
+            markdownToHtml(res.data?.content || '').then(resp => setData({ ...(res?.data || {}), content: resp }),
+                err => console.log)
         },
         err => console.log
     )
