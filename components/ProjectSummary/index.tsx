@@ -57,7 +57,7 @@ export default function ProjectSummary({ id, image, headliner, title, introducti
         }
     }
 
-    return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/projects?slug=${slug}`} style={{ textDecoration: 'none' }}>
+    return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/project?slug=${slug}`} style={{ textDecoration: 'none' }}>
         <Box sx={{
             display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', sm: width || '100%' },
             mb: 3, overflow: 'hidden', cursor: 'pointer', alignItems: 'flex-start', ":hover": {
