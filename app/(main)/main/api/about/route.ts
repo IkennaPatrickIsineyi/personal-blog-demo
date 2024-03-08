@@ -2,6 +2,8 @@ import { About } from "@/app/models/About";
 import { connectDb } from "@/utils/connectDb";
 import { logServerError } from "@/utils/logServerError";
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: Request) {
     try {
         console.log('fetching about');
