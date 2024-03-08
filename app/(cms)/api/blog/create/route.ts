@@ -1,4 +1,5 @@
 import { Blog } from "@/app/models/Blog";
+import { connectDb } from "@/utils/connectDb";
 import { logServerError } from "@/utils/logServerError";
 import { randomUUID } from "crypto";
 
@@ -20,6 +21,8 @@ export async function POST(req: Request) {
         })
 
         const slug = summaryTitle.replaceAll(' ', '-') + '-' + randomUUID().substring(0, 5);
+
+        await connectDb()
 
         console.log('slug', slug);
 

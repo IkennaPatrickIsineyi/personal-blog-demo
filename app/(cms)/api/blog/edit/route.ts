@@ -17,6 +17,8 @@ export async function POST(req: Request) {
 
         const slug = summaryTitle.replaceAll(' ', '-') + randomUUID().substring(0, 5);
 
+        await connectDb()
+
         await Blog.updateOne({ _id }, {
             $set: {
                 summaryImage, summaryTitle, introduction, author,
