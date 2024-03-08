@@ -19,7 +19,7 @@ export async function POST(req: Request) {
             categories, content, metaTitle, metaDescription
         })
 
-        const slug = summaryTitle.replace(' ', '-') + randomUUID().substring(0, 5);
+        const slug = summaryTitle.replaceAll(' ', '-') + '-' + randomUUID().substring(0, 5);
 
         console.log('slug', slug);
 
