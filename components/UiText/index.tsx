@@ -27,7 +27,6 @@ export default function UiText({ size, textAlign, isHtml = false, sx, color, max
                 WebkitBoxOrient: 'vertical',
             } : {})
         }}>
-
         </Typography>
         : <Typography sx={{
             fontSize: fontSizes[size], textAlign, fontFamily: fontFamily || 'inter', color, fontWeight, ...sx,
