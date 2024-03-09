@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         const { summaryImage, summaryTitle, introduction, author, _id,
             categories, content, metaTitle, metaDescription }: PostType = await req.json();
 
-        const slug = summaryTitle.replaceAll(' ', '-') + randomUUID().substring(0, 5);
+        const slug = summaryTitle.substring(0, 15).replaceAll(' ', '-') + randomUUID().substring(0, 5);
 
         await connectDb()
 
