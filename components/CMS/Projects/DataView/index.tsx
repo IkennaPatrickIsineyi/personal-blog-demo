@@ -106,7 +106,7 @@ export default function Blog() {
 
                         <ProjectSummary
                             {...{
-                                ...item, editable: true, headliner: false, fullwidth: false,
+                                ...item, cms: true, editable: true, headliner: false, fullwidth: false,
                                 width: '300px', flex: false, slug: item?.slug
                             }}
                         />

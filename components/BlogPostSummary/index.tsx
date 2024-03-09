@@ -22,6 +22,7 @@ type Props = {
         color: string
     }[],
     flex: boolean,
+    cms?: boolean,
     editable?: boolean,
     fullwidth: boolean,
     headliner: boolean,
@@ -29,7 +30,7 @@ type Props = {
 }
 
 export default function BlogPostSummary({ id, image, headliner, date, author, title, introduction, categories,
-    flex, fullwidth, width, editable = false, slug }: Props) {
+    flex, fullwidth, width, editable = false, slug, cms = false }: Props) {
     const router = useRouter();
 
     const [showActionRow, setShowActionRow] = useState<boolean>(false)
@@ -57,7 +58,7 @@ export default function BlogPostSummary({ id, image, headliner, date, author, ti
         }
     }
 
-    return <a href={`${process.env.NEXT_PUBLIC_SITEURL}/post?slug=${slug}`} style={{ textDecoration: 'none' }}>
+    return <a href={cms ? '' : `${process.env.NEXT_PUBLIC_SITEURL}/post?slug=${slug}`} style={{ textDecoration: 'none' }}>
         <Box onMouseEnter={onMouseIn} onMouseLeave={onMouseOut}
             sx={{
                 display: 'flex', flexDirection: flex ? 'row' : 'column', width: { xs: '100%', sm: width || '100%' },
