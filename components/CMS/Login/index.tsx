@@ -35,9 +35,15 @@ export default function Login() {
 
     useEffect(() => {
         //Check login status
-        setTimeout(() => {
-            setShowForm(true)
-        }, 4000)
+        const fetchData = async () => {
+            const res = await request({ method: 'GET', url: '/api/auth' });
+
+            if (res?.data) {
+                res.data?.email ? (window.location.href = '/cms/blog') : setShowForm(true)
+            }
+        }
+
+        fetchData()
     }, [])
 
     const handleForgotPassword = () => {

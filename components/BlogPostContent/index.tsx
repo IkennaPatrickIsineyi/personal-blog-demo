@@ -26,7 +26,6 @@ type DataType = {
     recentPosts: BlogPostType
 }
 
-let initialised = false;
 
 export default function BlogPostContent(/* { content, recentPosts, title, categories, date }: Props */) {
     const [data, setData] = useState<DataType>({ content: '', date: '', title: '', categories: [], recentPosts: [] });
@@ -36,29 +35,20 @@ export default function BlogPostContent(/* { content, recentPosts, title, catego
     //Get Id of the post
     const slug = useSearchParams().get('slug');
 
-    !initialised && request({ method: 'GET', url: `/main/api/blog/${slug}` }).then(
-        (res: any) => {
-            markdownToHtml(res.data?.content || '').then(resp => setData({ ...(res?.data || {}), content: resp }),
-                err => console.log)
-        },
-        err => console.log
-    )
+    useEffect(() => {
+        const fetchData = async () => {
+            await request({ method: 'GET', url: `/main/api/blog/${slug}` }).then(
+                (res: any) => {
+                    markdownToHtml(res.data?.content || '').then(resp => setData({ ...(res?.data || {}), content: resp }),
+                        err => console.log)
+                },
+                err => console.log
+            )
+        }
 
-    initialised = true;
+        fetchData()
+    }, [])
 
-    /*    useEffect(() => {
-           //Get the post content, title, date, categories,recent posts
-           setData({
-               content: postContentSample,
-               date: '2024/01/24',
-               title: 'Grid system for better Design User Interface',
-               categories: [
-                   { value: 'design', color: '#6941C6', },
-                   { value: 'research', color: '#3538CD' }
-               ],
-               recentPosts: recentPostSample
-           })
-       }, []) */
 
     return <UiContainer size="large">
         {data.content ? <Box sx={{

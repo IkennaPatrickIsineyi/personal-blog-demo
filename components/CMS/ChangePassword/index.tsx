@@ -17,7 +17,6 @@ import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import PasswordChanged from "./PasswordChanged";
 
-let checked = false
 
 export default function ChangePassword() {
     const [showForm, setShowForm] = useState(false);
@@ -35,29 +34,26 @@ export default function ChangePassword() {
 
     const { request, processing } = useApi()
 
-    //Check if the token is valid for this user
-    !checked && request({
-        method: 'POST', url: '/api/verify-token',
-        body: { token: pathArray[pathArray.length - 2], email: pathArray[pathArray.length - 1] }
-    }).then(resp => {
-        checked = true
-        const data = resp.data;
-
-        console.log('request result', data);
-
-        if (data) {
-            console.log('valid token', data);
-            setShowForm(true)
-        }
-    }, err => console.log('error in request', err));
-
-    checked = true
-
     useEffect(() => {
-        return () => {
-            checked = false
+        const fetchData = async () => {
+            request({
+                method: 'POST', url: '/api/verify-token',
+                body: { token: pathArray[pathArray.length - 2], email: pathArray[pathArray.length - 1] }
+            }).then(resp => {
+                const data = resp.data;
+
+                console.log('request result', data);
+
+                if (data) {
+                    console.log('valid token', data);
+                    setShowForm(true)
+                }
+            }, err => console.log('error in request', err));
         }
+
+        fetchData()
     }, [])
+
 
     const goToLogin = () => {
         router.replace('/cms');

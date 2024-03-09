@@ -8,31 +8,38 @@ import UiSpacer from '@/components/UiSpacer'
 import RecentPosts from '@/components/RecentPosts'
 import { recentPostSample } from '@/utils/dataSamples'
 import AllPosts from "../AllPosts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useApi } from "@/services/api";
 import UiLoader from "../UiLoader";
 
-let initialised = false;
+//let initialised = false;
 
 export default function IndexPage() {
     const [recent, setRecent] = useState<Array<any> | null>(null);
 
     const { request, processing, error, success } = useApi();
 
-    const getRecent = async () => {
-        const res = await request({
-            method: 'GET',
-            url: `/main/api/blog/recent`
-        })
+    useEffect(() => {
+        const getRecent = async () => {
+            const res = await request({
+                method: 'GET',
+                url: `/main/api/blog/recent`
+            })
 
-        if (res?.data) {
-            console.log('data of posts', res.data)
-            setRecent(res?.data?.posts);
+            console.log('res at index', res)
+
+            if (res?.data) {
+                setRecent(res?.data?.posts);
+            }
         }
-    }
 
-    !initialised && getRecent().then(res => res, err => console.log)
-    initialised = true
+        getRecent()
+    }, [])
+
+
+
+    /*   !initialised && getRecent().then(res => res, err => console.log)
+      initialised = true */
 
 
     return <Box sx={indexPageStyle.container}>

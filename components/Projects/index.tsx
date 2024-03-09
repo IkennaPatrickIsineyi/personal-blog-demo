@@ -1,7 +1,7 @@
 'use client'
 
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { projectPageStyle } from './style'
 import UiTextBanner from '../UiTextBanner'
 import RecentProjects from "../RecentProjects";
@@ -11,8 +11,6 @@ import UiSpacer from "../UiSpacer";
 import { useApi } from "@/services/api";
 import UiLoader from "../UiLoader";
 
-
-let initialised = false;
 
 export default function () {
     const [recent, setRecent] = useState<Array<any> | null>(null);
@@ -31,8 +29,9 @@ export default function () {
         }
     }
 
-    !initialised && getRecent().then(res => res, err => console.log)
-    initialised = true
+    useEffect(() => {
+        getRecent()
+    }, [])
 
 
     return <Box sx={projectPageStyle.container}>

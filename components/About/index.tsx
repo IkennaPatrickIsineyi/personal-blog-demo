@@ -1,12 +1,11 @@
 'use client'
 
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { aboutPageStyle } from "./style";
 import UiTextBanner from "../UiTextBanner";
 import UiContainer from "../UiContainer";
 import UiText from "../UiText";
-import { aboutSample } from "../../utils/dataSamples";
 import UiSpacer from "../UiSpacer";
 import { useApi } from "@/services/api";
 import UiLoader from "../UiLoader";
@@ -19,7 +18,6 @@ type AboutType = {
     about: string,
 }
 
-let initialised = false;
 
 export default function About() {
     const [data, setData] = useState<AboutType | null>(null)
@@ -37,8 +35,9 @@ export default function About() {
         }
     }
 
-    !initialised && getData().then(res => res, err => console.log)
-    initialised = true
+    useEffect(() => {
+        getData()
+    }, [])
 
     return <Box sx={aboutPageStyle.container}>
         {/* Banner */}

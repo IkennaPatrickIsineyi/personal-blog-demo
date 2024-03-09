@@ -11,6 +11,7 @@ import { Box, IconButton } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import DataPreview from "../DataPreview";
+import UiLoader from "@/components/UiLoader";
 
 type PostType = {
     id: string | number,
@@ -27,10 +28,9 @@ type PostType = {
     }[],
 }[]
 
-let initialised = false;
 
 export default function Blog() {
-    const [data, setData] = useState<PostType>([])
+    const [data, setData] = useState<PostType | null>(null)
     const [totalPosts, setTotalPosts] = useState(0);
     const [content, setContent] = useState('');
     const [itemsPerPage, setItemsPerPage] = useState(5)
@@ -56,25 +56,16 @@ export default function Blog() {
         }
     }
 
-    !initialised && getPosts(0, itemsPerPage).then(res => res, err => console.log)
-    initialised = true
 
     useEffect(() => {
-        //Get the blog posts
-
-        /*   setData(allPostSample)
-          setData(allPostSample.slice(0, itemsPerPage));
-          setTotalPosts(allPostSample.length) */
+        getPosts(0, itemsPerPage)
     }, [])
 
+
     const onPaginate = async ({ offset, endOffset }: { offset: number, endOffset: number }) => {
-        // setData(allPostSample.slice(offset, endOffset))
         await getPosts(offset, endOffset)
     }
 
-    const handleCreate = () => {
-        router.push('/cms/blog/create')
-    }
 
     const handleOpenDetails = (content?: string) => {
         setContent(content || '')
@@ -85,7 +76,7 @@ export default function Blog() {
     }
 
     return <UiContainer size="medium">
-        <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>
+        {data ? <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>
             <UiSpacer direction="vertical" size="small" />
 
             {/* Actions */}
@@ -136,6 +127,6 @@ export default function Blog() {
             {content && <DataPreview content={content} open={(Boolean(content))}
                 handleClose={closeDetails}
             />}
-        </Box>
+        </Box> : <UiLoader />}
     </UiContainer>
 }

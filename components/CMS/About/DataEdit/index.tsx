@@ -25,8 +25,6 @@ type Props = {
     edit: boolean
 }
 
-let initialised = false;
-
 export default function EditAbout({ edit }: Props) {
     const [users, setUsers] = useState<DropdownDataType>([]);
     const [categories, setCategories] = useState<DropdownDataType>([]);
@@ -39,18 +37,20 @@ export default function EditAbout({ edit }: Props) {
 
     const { processing, request, error, success } = useApi();
 
-    !initialised && edit && request({ method: 'GET', url: `/api/about/data` }).then(
-        res => {
-            if (res?.data) {
-                edit && setInitialValues(res.data?.about);
-            }
-        },
-        err => console.log
-    );
+    useEffect(() => {
+        const fetchData = async () => {
+            edit && request({ method: 'GET', url: `/api/about/data` }).then(
+                res => {
+                    if (res?.data) {
+                        edit && setInitialValues(res.data?.about);
+                    }
+                },
+                err => console.log
+            );
+        }
 
-    initialised = true;
-
-    console.log('initalvalues', initialValues)
+        fetchData()
+    }, [])
 
     const handleFileUpload = (url: string, formProps: FormikProps<any>, id: string) => {
         formProps.setFieldValue(id, url)

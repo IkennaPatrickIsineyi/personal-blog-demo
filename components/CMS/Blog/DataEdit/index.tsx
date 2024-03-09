@@ -23,7 +23,8 @@ import { useSearchParams } from "next/navigation";
 import UiLoader from "@/components/UiLoader";
 import CollapseContainer from "@/components/CollapseContainer";
 
-let initialised = false;
+
+
 export default function EditBlog() {
     const [users, setUsers] = useState<DropdownDataType>([]);
     const [categories, setCategories] = useState<DropdownDataType>([]);
@@ -39,47 +40,25 @@ export default function EditBlog() {
     const slug = useSearchParams().get('slug')
 
     useEffect(() => {
-        //Get the data for the blog (if this is an edit operation)
+        const fetchData = async () => {
+            request({ method: 'GET', url: `/api/blog/data?slug=${slug}` }).then(
+                res => {
+                    if (res?.data) {
+                        slug && setInitialValues(res.data?.post);
+                        setUsers(res.data?.users?.map((i: any) => {
+                            return { label: i?.fullName, value: i?._id, image: i?.profilePicture }
+                        }));
+                        setCategories(res.data?.categories?.map((i: any) => {
+                            return { label: i?.value, value: i?._id, image: '' }
+                        }));
+                    }
+                },
+                err => console.log
+            );
+        }
 
-
-        //Get all the users
-        /*   setUsers([
-              { label: 'John Doe', value: '12', image: '' },
-              { label: 'Peter Rain', value: '122', image: '' },
-          ]); */
-
-        //Get all the categories
-        /*  setCategories([
-             { label: 'Research', value: '32', image: '' },
-             { label: 'Design', value: '93', image: '' },
-         ]) */
+        fetchData()
     }, [])
-
-    !initialised && request({ method: 'GET', url: `/api/blog/data?slug=${slug}` }).then(
-        res => {
-            if (res?.data) {
-                slug && setInitialValues(res.data?.post);
-                setUsers(res.data?.users?.map((i: any) => {
-                    return { label: i?.fullName, value: i?._id, image: i?.profilePicture }
-                }));
-                setCategories(res.data?.categories?.map((i: any) => {
-                    return { label: i?.value, value: i?._id, image: '' }
-                }));
-
-                /*  setUsers(res.data?.users?.map((i: any) => {
-                     return { label: i?.fullName, value: i?._id, image: i?.profilePicture }
-                 }));
-                 setCategories(res.data?.users?.map((i: any) => {
-                     return { label: i?.value, value: i?._id, image: '' }
-                 })); */
-            }
-        },
-        err => console.log
-    );
-
-    initialised = true;
-
-    console.log('initalvalues', initialValues)
 
 
     const handleFileUpload = (url: string, formProps: FormikProps<any>, id: string) => {

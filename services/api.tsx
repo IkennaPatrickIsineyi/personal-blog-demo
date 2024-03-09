@@ -17,14 +17,13 @@ export const useApi = () => {
     const [processing, setProcessing] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
-
-    const controller = new AbortController();
+    const [controller, setController] = useState<AbortController | null>(null)
 
 
     useEffect(() => {
         return () => {
             console.log('aborting request')
-            controller.abort()
+            controller && controller.abort()
         }
     }, [])
 
@@ -37,26 +36,32 @@ export const useApi = () => {
         setProcessing(true);
 
         try {
-            const response = await axios({
-                method,
-                data: body,
-                url,
-                baseURL: process.env.NEXT_PUBLIC_SITEURL,
-                signal: controller.signal
-            });
+            const controller = new AbortController()
+            setController(controller);
 
-            if (response && response.status === 200) {
-                setProcessing(false)
-                setTimeout(() => {
-                    response.data?.error && setError(response.data?.error)
-                    response.data?.successMsg && setSuccess(response.data?.successMsg)
-                }, 100);
-                return response.data
+            if (controller) {
+                const response = await axios({
+                    method,
+                    data: body,
+                    url,
+                    baseURL: process.env.NEXT_PUBLIC_SITEURL,
+                    signal: controller.signal
+                });
+
+                if (response && response.status === 200) {
+                    setProcessing(false)
+                    setTimeout(() => {
+                        response.data?.error && setError(response.data?.error)
+                        response.data?.successMsg && setSuccess(response.data?.successMsg)
+                    }, 100);
+                    return response.data
+                }
+                else {
+                    setProcessing(false)
+                    return { data: null }
+                }
             }
-            else {
-                setProcessing(false)
-                return { data: null }
-            }
+
         } catch (error) {
             console.log('api request error', error)
             setProcessing(false)

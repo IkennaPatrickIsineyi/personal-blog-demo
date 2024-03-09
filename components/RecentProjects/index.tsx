@@ -20,7 +20,6 @@ type Props = {
 }
 
 export default function RecentProjects({ projects }: Props) {
-    console.log('called recent projects with data', projects);
 
     return <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '100%' }}>
         <UiText size='large' fontFamily='inter' fontWeight={700} value={'Recent Projects'}

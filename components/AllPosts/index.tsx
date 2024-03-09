@@ -23,7 +23,6 @@ type PostType = {
 type Props = {
 }
 
-let initialised = false;
 
 export default function AllPosts() {
     const [posts, setPosts] = useState<PostType>([]);
@@ -39,7 +38,6 @@ export default function AllPosts() {
         })
 
         if (res?.data) {
-            console.log('data of posts', res.data)
             setPosts(res?.data?.posts?.map((i: any) => {
                 return {
                     ...i, id: i?._id, image: i?.summaryImage,
@@ -50,8 +48,14 @@ export default function AllPosts() {
         }
     }
 
-    !initialised && getPosts(0, itemsPerPage).then(res => res, err => console.log)
-    initialised = true
+    useEffect(() => {
+        getPosts(0, itemsPerPage)
+    }, [])
+
+
+
+    /*  !initialised && getPosts(0, itemsPerPage).then(res => res, err => console.log)
+     initialised = true */
 
     /*  useEffect(() => {
          //Get the posts and set the total posts

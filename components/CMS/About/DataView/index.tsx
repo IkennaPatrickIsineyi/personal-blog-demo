@@ -19,7 +19,6 @@ type AboutType = {
     about: string,
 }
 
-let initialised = false;
 
 export default function About() {
     const [data, setData] = useState<AboutType | null>(null)
@@ -39,8 +38,10 @@ export default function About() {
         }
     }
 
-    !initialised && getData().then(res => res, err => console.log)
-    initialised = true
+    useEffect(() => {
+        getData()
+    }, [])
+
 
     return <UiContainer size="medium">
         {data ? <Box sx={{

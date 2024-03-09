@@ -5,6 +5,7 @@ import React from "react";
 import AppBar from "./AppBar";
 import UiButton from "@/components/UiButton";
 import { usePathname } from "next/navigation";
+import { useApi } from "@/services/api";
 
 type Props = {
     pageName: string,
@@ -21,6 +22,8 @@ const menuItems = [
 ]
 
 export default function DataLayout({ pageName, id, children }: Props) {
+    const { request, processing } = useApi();
+
     const currentPath = `/${usePathname().split('/')[2]}`
 
     const pathMapping: { [key: string]: string } = {
@@ -30,6 +33,14 @@ export default function DataLayout({ pageName, id, children }: Props) {
         '/admin': '/cms/admin',
         '/about': '/cms/about',
         '/subscribers': '/cms/subscribers'
+    }
+
+    const handleLogout = async () => {
+        const res = await request({ method: 'GET', url: '/api/sign-out' })
+
+        if (res?.data) {
+            window.location.replace('/cms')
+        }
     }
 
     return <Box sx={{ display: 'flex', flexDirection: 'column', maxHeight: '100vh', overflowY: 'hidden' }}>
@@ -48,13 +59,24 @@ export default function DataLayout({ pageName, id, children }: Props) {
             }}>
                 {menuItems.map((item, index) => {
                     return <UiButton key={index} href={item.path}
-                        size="normal"
+                        size="normal" fullWidth
                         value={item.label} fontFamily="inter" textAlign="left"
-                        variant="text" color="white"
+                        variant="text" color="white" hoverBgColor="black"
                         fontWeight={pathMapping[currentPath] === item.path ? 700 : 400}
                         handleClick={() => { }}
                     />
                 })}
+
+                {/* Log out button */}
+                <Box sx={{ mt: 'auto', width: '100%' }}>
+                    <UiButton size="normal"
+                        value={'Log out'} fontFamily="inter" textAlign="left"
+                        variant="text" color="white" fullWidth
+                        fontWeight={400} hoverBgColor="black"
+                        handleClick={handleLogout}
+                    />
+                </Box>
+
             </Box>
 
             {/* Children */}

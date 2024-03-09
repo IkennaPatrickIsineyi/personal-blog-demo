@@ -17,6 +17,7 @@ type Props = {
     margin?: 'tight' | 'spaced'
     textAlign?: 'left' | 'right' | 'center',
     leftIcon?: JSX.Element | 'string',
+    fullWidth?: boolean,
     rightIcon?: JSX.Element | 'string',
     href?: string,
     letterCase?: 'uppercase' | 'capitalize' | 'lowercase'
@@ -25,11 +26,13 @@ type Props = {
 
 export default function UiButton({ size, href, color, variant = 'contained', fontFamily, hoverColor,
     hoverBgColor, letterCase, handleClick = () => { }, leftIcon, rightIcon, fontWeight, value, padding, margin,
-    textAlign }: Props) {
+    textAlign, fullWidth = false }: Props) {
     return <Button
         variant={variant} href={href}
         sx={{
             fontSize: fontSizes[size], color, textAlign, textTransform: letterCase,
+            width: fullWidth ? '100%' : 'max-content', display: 'flex',
+            justifyContent: textAlign === 'center' ? 'center' : 'flex-start',
             mx: margin && (margin === 'tight' ? 1 : 2), my: margin === 'spaced' ? 1.5 : .5,
             px: padding && (padding === 'narrow' ? 1 : 2), py: padding === 'narrow' ? .5 : 1,
             ":hover": {
