@@ -20,7 +20,7 @@ export async function POST(req: Request) {
             categories, content, metaTitle, metaDescription
         })
 
-        const slug = summaryTitle.substring(0, 15).replaceAll(' ', '-') + '-' + randomUUID().substring(0, 5);
+        const slug = `${summaryTitle.toLowerCase().substring(0, 15).replaceAll(' ', '-')}-${randomUUID().substring(0, 5)}`
 
         await connectDb()
 
