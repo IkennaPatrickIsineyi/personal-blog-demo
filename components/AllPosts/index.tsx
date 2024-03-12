@@ -53,16 +53,6 @@ export default function AllPosts() {
     }, [])
 
 
-
-    /*  !initialised && getPosts(0, itemsPerPage).then(res => res, err => console.log)
-     initialised = true */
-
-    /*  useEffect(() => {
-         //Get the posts and set the total posts
-         setPosts(allPostSample.slice(0, itemsPerPage));
-         setTotalPosts(allPostSample.length)
-     }, []) */
-
     const onPaginate = async ({ offset, endOffset }: { offset: number, endOffset: number }) => {
         // setPosts(allPostSample.slice(offset, endOffset))
         await getPosts(offset, endOffset)

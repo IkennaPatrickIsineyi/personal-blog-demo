@@ -11,6 +11,10 @@ export type BlogPostType = {
     }[],
 }[]
 
+export type GenericObjectType = {
+    [key: string]: any
+}
+
 export type ProjectType = {
     id: string | number,
     image?: string,
@@ -44,3 +48,10 @@ export type DropdownDataType = {
     label?: string,
     value?: string
 }[]
+
+export type FilterMatcherType = {
+    filterOption: GenericObjectType,
+    value: any,
+    filterText: string | Array<any>
+}
+
