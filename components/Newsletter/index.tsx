@@ -8,12 +8,20 @@ import { newsletterSchema } from "@/services/formSchema";
 import UiTextField from "../UiTextField";
 import SubmitButton from "../SubmitButton";
 import { fontSizes } from "@/utils/sizes";
+import { useApi } from "@/services/api";
 
 export default function Newsletter() {
     const [initialValues] = useState({ email: '' });
 
-    const handleFormSubmit = async (values: {}) => {
+    const { request, error, success } = useApi();
 
+    const handleFormSubmit = async (values: {}) => {
+        const { data } = await request({ method: 'POST', url: `/main/api/subscribers/create`, body: values });
+
+        if (data) {
+            console.log('subscriber has been created', data);
+            // window.location.replace('/cms/subscribers')
+        }
     };
 
     return <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
@@ -44,18 +52,27 @@ export default function Newsletter() {
             {(formProps) => {
                 console.log('form values', formProps.values.email)
                 return (<Form style={{ width: '100%' }}>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%', alignItems: 'flex-start' }}>
-                        {/* Text field */}
-                        <UiTextField width="60%" placeholder={'Enter your email'} name='email' />
+                    <Box sx={{ display: 'flex', width: '100%', flexDirection: 'column', alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%', alignItems: 'flex-start' }}>
+                            {/* Text field */}
+                            <UiTextField width="60%" placeholder={'Enter your email'} name='email' />
 
-                        <UiSpacer direction="horizontal" size="medium" />
+                            <UiSpacer direction="horizontal" size="medium" />
 
-                        {/* Submit button */}
-                        <SubmitButton style={{ color: 'white', bgcolor: '#7F56D9' }}
-                            disabled={!formProps.isValid} fullWidth={false}
-                            marginTop={0} label={'Subscribe'} formProps={formProps}
-                        />
+                            {/* Submit button */}
+                            <SubmitButton style={{ color: 'white', bgcolor: '#7F56D9' }}
+                                disabled={!formProps.isValid} fullWidth={false}
+                                marginTop={0} label={'Subscribe'} formProps={formProps}
+                            />
+                        </Box>
+
+                        {(Boolean(error) || Boolean(success)) && <UiSpacer direction="vertical" size="small" />}
+
+                        {(Boolean(error) || Boolean(success)) && <UiText value={error || success || ''} size="small" color={error ? "red" : 'green'} />}
+                        {(Boolean(error) || Boolean(success)) && <UiSpacer direction="vertical" size="small" />}
+
                     </Box>
+
                 </Form >)
             }}
         </Formik >

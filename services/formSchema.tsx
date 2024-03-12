@@ -49,8 +49,11 @@ export const aboutSchema = {
 }
 
 export const adminSchema = {
-    /* Summary */
     profilePicture: Yup.string().required('Profile picture is required'),
     fullName: Yup.string().required('Full name is required'),
-    email: Yup.string().required('Education history is required'),
+    email: Yup.string().required('Email is required'),
+}
+
+export const subscriberSchema = {
+    email: Yup.string().required('Email is required'),
 }
