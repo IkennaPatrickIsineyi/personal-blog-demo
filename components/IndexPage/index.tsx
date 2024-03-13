@@ -6,11 +6,11 @@ import UiContainer from '@/components/UiContainer'
 import UiTextBanner from '@/components/UiTextBanner'
 import UiSpacer from '@/components/UiSpacer'
 import RecentPosts from '@/components/RecentPosts'
-import { recentPostSample } from '@/utils/dataSamples'
 import AllPosts from "../AllPosts";
 import { useEffect, useState } from "react";
 import { useApi } from "@/services/api";
 import UiLoader from "../UiLoader";
+import NoContent from "../NoContent";
 
 //let initialised = false;
 
@@ -37,18 +37,17 @@ export default function IndexPage() {
     }, [])
 
 
-
-    /*   !initialised && getRecent().then(res => res, err => console.log)
-      initialised = true */
-
-
     return <Box sx={indexPageStyle.container}>
         <UiTextBanner value="The blog" />
 
         <UiSpacer size="large" direction="vertical" />
 
         <UiContainer size="large">
-            {recent ? <RecentPosts posts={recent} /> : <UiLoader />}
+            {recent ?
+                recent.length ?
+                    <RecentPosts posts={recent} />
+                    : <NoContent title="No blog posts at the moment. Please check back later" />
+                : <UiLoader />}
         </UiContainer>
 
         <UiContainer size="large">

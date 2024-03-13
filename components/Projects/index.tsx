@@ -10,6 +10,7 @@ import AllProjects from "../AllProjects";
 import UiSpacer from "../UiSpacer";
 import { useApi } from "@/services/api";
 import UiLoader from "../UiLoader";
+import NoContent from "../NoContent";
 
 
 export default function () {
@@ -42,7 +43,11 @@ export default function () {
 
         {/* All Projects */}
         <UiContainer size="large">
-            {recent ? <RecentProjects projects={recent} /> : <UiLoader />}
+            {recent ?
+                recent.length ?
+                    <RecentProjects projects={recent} />
+                    : <NoContent title="No projects at the moment. Please check back later." />
+                : <UiLoader />}
         </UiContainer>
 
         <UiContainer size="large">
